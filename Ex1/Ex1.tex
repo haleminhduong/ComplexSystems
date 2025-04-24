@@ -1,0 +1,284 @@
+\documentclass[]{scrartcl}
+%\usepackage{graphicx}
+%\usepackage{amsmath} % For equation alignment
+\usepackage{mathtools} % For some extra math-related functionality, such as matrix*
+%\usepackage{hyperref} % For using \autoref
+%\usepackage{listings} % For adding code to the latex document
+%\usepackage{caption} % For adding captions
+\usepackage{color} % For color in code
+\usepackage{nicematrix} % For creating matrices with outer rows and columns, with dsahed line separators. Documentation: https://ctan.org/pkg/nicematrix
+%\usepackage{float} % For better control over float environments
+%\usepackage[utf8]{inputenc} % this is needed for umlauts
+%\usepackage[ngerman]{babel} % this is needed for umlauts
+%\usepackage[T1]{fontenc}    % this is needed for correct output of umlauts in pdf
+
+
+
+
+% Opening / Title
+\title{Complex Systems for Bioinformaticians \\ \vspace{2mm} Assignment 1 \\ \vspace{2mm}}
+\subtitle{Lecturers: Prof. Dr. Max von Kleist, Prof. Dr. Jana Wolf, Prof. Dr. Martin Vingron}
+\author{Kristian Reinhart, 4474140 \\ Duong Ha Le Minh: 5314209}
+\newenvironment{tightcenter}{%
+  \setlength\topsep{0pt}
+  \setlength\parskip{0pt}
+  \begin{center}
+}{%
+  \end{center}
+}
+
+
+%%% Setting for lstset, lstlisting, etc.
+%%% Basically the setting for how I want the code to appear
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+
+% Needs listings package, defines look of code in latex document
+%\lstset{ %
+%  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
+%  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+%  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+%  breaklines=true,                 % sets automatic line breaking
+%  captionpos=b,                    % sets the caption-position to bottom
+%  commentstyle=\color{mygreen},    % comment style
+%  deletekeywords={...},            % if you want to delete keywords from the given language
+%  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+%  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+%  frame=single,	                   % adds a frame around the code
+%  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+%  keywordstyle=\color{blue},       % keyword style
+%  language=Octave,                 % the language of the code
+%  morekeywords={*,...},            % if you want to add more keywords to the set
+%  numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+%  numbersep=5pt,                   % how far the line-numbers are from the code
+%  numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+%  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+%  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+%  showstringspaces=false,          % underline spaces within strings only
+%  showtabs=false,                  % show tabs within strings adding particular underscores
+%  stepnumber=5,                    % the step between two line-numbers. If it's 1, each line will be numbered
+%  stringstyle=\color{mymauve},     % string literal style
+%  tabsize=2,	                   % sets default tabsize to 2 spaces
+%  title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+%}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%	Begin actual document	%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+
+
+
+
+\maketitle
+
+
+
+
+\section*{Homework 1}
+
+
+\textit{You saw the following depiction of a reaction network model and would like to use this model in 
+a research project of your own. [\dots]}
+
+
+\subsection*{Task 1a)}
+
+
+Decompose it into its stoichiometric matrix and propensity function vector [\dots].
+
+
+% Have the matrix in a float-environment and center it, looks nicer
+\begin{center}
+\noindent \begin{minipage}{.5\linewidth}
+$
+S =
+\begin{pNiceMatrix}[first-row,last-col,nullify-dots]
+	R_1	&	R_2 &	R_3 &	R_4 &	 \\
+	 -1 &	  0 &	  0 &	  1 &	X_1 \\
+	  0 &	  1 &	  0 &	 -2 &	X_2 \\
+	  1	&	  0 &	 -1 &	  0 &	X_3 \\
+	  1	&	  0 &	 -1 &	  0 &	X_4 \\
+\end{pNiceMatrix}
+$
+\end{minipage}
+\end{center}
+
+
+
+
+For the vector of deterministic reaction rate functions $R(X,k)$ we assume $\Omega = 1$ and use the approximation.
+% See lecture 2, slides 21-22
+\vspace{12pt}
+
+
+% Have both side-by-side and centered, looks nicer
+\begin{center}
+\noindent \begin{minipage}{.4\linewidth}
+$
+R(X,k) =
+\begin{pmatrix}
+	r_1(X,k_1) \\
+	r_2(X,k_2) \\
+	r_3(X,k_3) \\
+	r_4(X,k_4)
+\end{pmatrix}
+$
+\end{minipage}
+\noindent \begin{minipage}{.4\linewidth}
+$
+r_1 ~ = ~ k_1 * X_1 \\
+r_2 ~ = ~ k_2 \\
+r_3 ~ = ~ k_3 * X_3 * X_4 \\
+r_4 ~ = ~ k_4 * {X_2}^2 \\
+$
+\end{minipage}
+\end{center}
+
+
+\subsection*{Task 1b)}
+
+
+State the order of each reaction R\textsubscript{1} - R\textsubscript{4}
+\vspace{12pt}
+
+
+\begin{center}
+\noindent \begin{minipage}{.5\linewidth}
+$
+R_1: ~ 1^{st} ~ order \\
+R_2: ~ 0^{th} ~ order \\
+R_3: ~ 2^{nd} ~ order \\
+R_4: ~ 2^{nd} ~ order
+$
+\end{minipage}
+\end{center}
+
+
+\subsection*{Task 1c)}
+
+
+Write down the corresponding ODE system:
+\vspace{12pt}
+
+
+\begin{center}
+\noindent \begin{minipage}{.5\linewidth}
+$
+\begin{matrix*}[l]
+	\frac{d}{dt} X_1 & = & - r_1 + r_4		 \\ 
+	\frac{d}{dt} X_2 & = & r_2 - 2 r_4	 \\
+	\frac{d}{dt} X_3 & = & r_1 - r_3		 \\
+	\frac{d}{dt} X_4 & = & r_1 - r_3		
+\end{matrix*}
+$
+\end{minipage}
+\end{center}
+
+
+\vspace{12pt}
+
+Substitute the rates $r_i$ for $i = 1,..,4$:
+
+\vspace{12pt}
+
+\begin{center}
+\noindent \begin{minipage}{.5\linewidth}
+$
+\begin{matrix*}[l]
+	\frac{d}{dt} X_1 & = & - k_1 * X_1 + k_4 * {X_2}^2		 \\ 
+	\frac{d}{dt} X_2 & = & k_2 - 2 * k_4 * {X_2}^2	 \\
+	\frac{d}{dt} X_3 & = & k_1 * X_1 - k_3 * X_3 * X_4	 \\
+	\frac{d}{dt} X_4 & = & k_1 * X_1 - k_3 * X_3 * X_4		
+\end{matrix*}
+$
+\end{minipage}
+\end{center}
+
+\vspace{12pt}
+
+\section*{Homework 2}
+
+
+\textit{You have used the following ODE-system in your research: [\dots]}
+\vspace{12pt}
+
+
+% Repeat the ODE and substitute written out terms for rate variables
+\begin{center}
+\noindent \begin{minipage}{.8\linewidth}
+$
+ODE: 
+\begin{matrix*}[l]
+	\frac{d}{dt} X_1 & = & - k_1 * x_1 * x_2						& = & - 1 * r_1 + 0 * r_2 + 0 * r_3 \\ 
+	\frac{d}{dt} X_2 & = & - k_1 * x_1 * x_2 + k_2 + k_3 * {x_3}^2  & = & - 1 * r_1 + 1 * r_2 + 1 * r_3 \\
+	\frac{d}{dt} X_3 & = & - k_3 * {x_3}^2 							& = &   0 * r_1 + 0 * r_2 - 2 * r_3
+\end{matrix*}
+$
+\end{minipage}
+\end{center}
+
+
+\vspace{12pt}
+From the subsituted rection variables in the ODE we can reconstruct the stoichiometric matrix and rate functions: 
+\vspace{12pt}
+
+
+% Stochiometry = Product - Educt
+% Stochiometry + Educt = Product
+
+
+\begin{center}
+\noindent \begin{minipage}{.4\linewidth}
+$
+S =
+\begin{pNiceMatrix}[first-row,last-col,nullify-dots]
+	R_1	&	R_2 &	R_3 &	 \\
+	 -1 &	  0 &	  0 &	x_1 \\
+	 -1 &	  1 &	  1 &	x_2 \\
+	  0	&	  0 &	 -2 &	x_3
+\end{pNiceMatrix}
+$
+\end{minipage}
+\noindent \begin{minipage}{.4\linewidth}
+$
+\begin{matrix*}[l]
+	r_1 & = & k_1 * x_1 * x_2 \\
+	r_2 & = & k_2 \\
+	r_3 & = & k_3 * x_3 * x_3 \\
+\end{matrix*}
+$
+\end{minipage}
+\end{center}
+
+
+\vspace{12pt}
+Finally, given the stoichiometric matrix $S$ we can reconstruct the reaction network: 
+\vspace{12pt}
+
+
+\begin{center}
+\noindent \begin{minipage}{.4\linewidth}
+$
+\begin{matrix*}[l]
+	R_1 & : & x_1 + x_2 & \rightarrow & \emptyset \\
+	R_2 & : & \emptyset & \rightarrow & x_2 \\
+	R_3 & : & x_3 + x_3 & \rightarrow & x_2
+\end{matrix*}
+$
+\end{minipage}
+\end{center}
+
+
+
+
+
+
+\end{document}
