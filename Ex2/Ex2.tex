@@ -50,57 +50,90 @@
 \subsection*{Task 1a)}
 
 \textit{You are given the following ODE-system [\dots].}
-
 \\
 \\
-\textbf{\textcolor{red}{TODO: DO THIS TASK}}
+In the ODE we first identify the reaction rates $r_1$, $r_2$ and $r_3$.
 
-%% Have the matrix in a float-environment and center it, looks nicer
-%\begin{center}
-%\noindent \begin{minipage}{.5\linewidth}
-%$
-%S =
-%\begin{pNiceMatrix}[first-row,last-col,nullify-dots]
-%	R_1	&	R_2 &	R_3 &	R_4 &	 \\
-%	 -1 &	  0 &	  0 &	  1 &	X_1 \\
-%	  0 &	  1 &	  0 &	 -2 &	X_2 \\
-%	  1	&	  0 &	 -1 &	  0 &	X_3 \\
-%	  1	&	  0 &	 -1 &	  0 &	X_4 \\
-%\end{pNiceMatrix}
-%$
-%\end{minipage}
-%\end{center}
-%
-%
-%
-%
-%For the vector of deterministic reaction rate functions $R(X,k)$ we assume $\Omega = 1$ and use the approximation.
-%% See lecture 2, slides 21-22
-%\vspace{12pt}
-%
-%
-%% Have both side-by-side and centered, looks nicer
-%\begin{center}
-%\noindent \begin{minipage}{.4\linewidth}
-%$
-%R(X,k) =
-%\begin{pmatrix}
-%	r_1(X,k_1) \\
-%	r_2(X,k_2) \\
-%	r_3(X,k_3) \\
-%	r_4(X,k_4)
-%\end{pmatrix}
-%$
-%\end{minipage}
-%\noindent \begin{minipage}{.4\linewidth}
-%$
-%r_1 ~ = ~ k_1 * X_1 \\
-%r_2 ~ = ~ k_2 \\
-%r_3 ~ = ~ k_3 * X_3 * X_4 \\
-%r_4 ~ = ~ k_4 * {X_2}^2 \\
-%$
-%\end{minipage}
-%\end{center}
 
+\begin{center}
+\noindent \begin{minipage}{.5\linewidth}
+$
+\begin{matrix*}[c]
+	\frac{d}{dt} X_1 & = & - & \underbrace{k_1 * x_1 * x_2}	&	& 				   &   & \\ 
+					 &   &   & 							r_1 &   &				   &   & \\
+	\frac{d}{dt} X_2 & = & - & \underbrace{k_1 * x_1 * x_2}	& + & \underbrace{k_2} & + & \underbrace{k_3 * x_3 * x_2} \\
+					 &   &   & 							r_1 &   &			   r_2 &   & 						  r_3 \\
+	\frac{d}{dt} X_3 & = & - & \underbrace{k_3 * x_3 * x_2} &   &				   &   & \\
+					 &   &   & 							r_3 &   &				   &   & 
+\end{matrix*}
+$
+\end{minipage}
+\end{center}
+
+\noindent With the reaction rates and the ODE we can reconstruct the stoichiometric matrix $S$ and rate function vector $R$:
+
+% Have the matrix in a float-environment and center it, looks nicer
+\begin{center}
+\noindent \begin{minipage}{.4\linewidth}
+$
+S =
+\begin{pNiceMatrix}[first-row,last-col,nullify-dots]
+	R_1	&	R_2 &	R_3 &	 \\
+	 -1 &	  0 &	  0 &	X_1 \\
+	 -1 &	   1\textbf{\textcolor{red}{*}} &	  1 &	X_2 \\
+	  0	&	  0 &	 -1 &	X_3 \\
+\end{pNiceMatrix}
+$
+\end{minipage}
+\noindent \begin{minipage}{.4\linewidth}
+$
+R =
+\begin{pNiceMatrix}[last-col,nullify-dots]
+	k_1 * X_1 * X_2 & r_1 \\
+	k_2				& r_2 \\
+	k_3 * X_3 * X_2 & r_3 \\
+\end{pNiceMatrix}
+$
+\end{minipage}
+\end{center}
+
+\textbf{\textcolor{red}{*: Soll da 1 oder 0 hin?}}
+in dem Tutorium wurde von "Products - Educts" gesprochen, aber ich weiß nicht, ob da die rate functions $r_1$, $r_2$ und $r_3$ oder die tatsächliche Variablen $X_1$, $X_2$ und $X_3$ gemeint waren.
+\\
+In ersterem Fall stimmt die Zeile, da es $-r_1 + r_2 + r_3$ und somit $-1 | 1 | 1$ ist.
+\\
+In letzterem Fall müsste es 0 sein, da $ - X_1 - X_2 + 0 + X_3 + X_2$ und somit $-1 | 0 | 1$, was aber für mich nicht sehr viel Sinn macht.
+\\
+Ich bin relativ sicher, dass der erste Fall korrekt ist, wollte aber nochmal nachfragen.
+
+\vspace{1cm}
+\noindent\rule[0.5ex]{\linewidth}{1pt}
+\vspace{1cm}
+Ein Modell wird hier zwar nicht gefordert, aber als Übung habe ich es auch nochmal mit drauf geschrieben. Das lösche ich bevor der Zettel abgegeben wird.
+\\
+Wäre aber schön zu wissen, ob das so korrekt ist:
+
+\begin{center}
+\noindent \begin{minipage}{.4\linewidth}
+$
+\begin{matrix*}[c]
+	R_1 & : & x_1 + x_2 & \rightarrow & \emptyset \\
+	R_2 & : & \emptyset & \rightarrow & x_2 \\
+	R_3 & : & x_3		& \rightarrow & x_1
+\end{matrix*}
+$
+\end{minipage}
+\end{center}
+
+Die Frage die ich hier habe ist zu $R_2$. Da ist ja:
+\\
+$r_1 = k_1 * X_1 * X_2$
+\\
+$r_3 = k_1 * X_3 * X_2$
+\\
+In der Gleichung $\frac{d}{dt} X_2 = -k_1 * x_1 * x_2 + k_2 + k_3 * x_3 * x_2$
+\\
+\\
+Mir stellt sich dann die Frage, ob $R_2$ dann nicht irgendwie anders aussehen müsste. Oder spezifisch, wie ich von einem Modell und stoichiometrischen Matrix $S$ auf den reaction rate vector $R$ komme, das erschließt sich mir nicht so ganz. Wäre super sich da mal zusammen setzen zu können.
 
 \end{document}
