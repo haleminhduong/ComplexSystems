@@ -27,7 +27,7 @@ X0 = np.loadtxt('Input.txt')
 S = np.array([[-1,0,0],[-1,1,1],[0,0,-1]]);# !!check dimension of the array!!
 
 #2. reaction parameters
-k = [...];
+k = [0.01, 0.1, 0.01];
 
 
 # B: functions that depend on the state of the system X
@@ -35,7 +35,7 @@ def ReactionRates(k,X):
         R = np.zeros((3,1))
         R[0] = k[0] * X[0] * X[1]
         R[1] = k[1]
-        R[2] = k[3] * X[2] * X[1]
+        R[2] = k[2] * X[2] * X[1]
         return R
 # ===>       -----------------------     <===
 
