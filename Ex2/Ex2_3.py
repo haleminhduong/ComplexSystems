@@ -20,10 +20,11 @@ try:
     X0 = np.loadtxt('Input.txt', ndmin=2)  # initial state
 except FileNotFoundError:
     print("Error: Input.txt not found.")
+
 try:
     In = np.loadtxt('Input2.txt')  # seed and number of simulations
 except FileNotFoundError:
-    print("Error: Input.txt not found.")
+    print("Error: Input2.txt not found.")
     # set the seed and the number of simulations from the input file
 
 np.random.seed(seed=int(In[0]))
@@ -63,16 +64,16 @@ def propensities(X, k, t):
     return R
 
 
-def propensities_upper(X, k, B):
+def propensities_upper(X, k, r1_bound):
     R = np.zeros((3, 1))
     R[0] = X[0]*X[1]*k[0]
-    R[1] = B
+    R[1] = r1_bound
     R[2] = X[1]*X[2]*k[2]
     return R
 # <------------------------------>
 
 
-def Time_To_Next_Reaction(lam):
+def Time_To_Next_Reaction(B):
     """
     @brief The function samples from an exponential distribution with rate "lam".
     @param lam : real value positive.
@@ -83,10 +84,10 @@ def Time_To_Next_Reaction(lam):
     while r == 0:
         r = np.random.rand()
 
-    return (1.0/lam)*np.log(1.0/r)
+    return (1.0/B)*np.log(1.0/r)
 
 
-def Find_Reaction_Index(a):
+def Find_Reaction_Index(a, B):
     """
     @brief The function takes in the reaction rate vector and returns
     the index of the reaction to be fired of a possible reaction candidate.
@@ -98,7 +99,7 @@ def Find_Reaction_Index(a):
     while r == 0:
         r = np.random.rand()
 
-    return np.sum(np.cumsum(a) < r*np.sum(a))
+    return np.sum(np.cumsum(a) <= r*B)
 
 
 def Extrande(Stochiometry, X0, t_final, k, bound):
@@ -109,52 +110,42 @@ def Extrande(Stochiometry, X0, t_final, k, bound):
     # initialize
     t = 0.0
     x = X0.copy()
-    B = bound
+    r1_bound = bound
     X_store.append(x[1, 0])
     T_store.append(t)
 
     while t < t_final:
         # compute upperbound
-        a_upper = propensities_upper(x, k, B)
-        a_upper_sum = np.sum(a_upper)
+        a_upper = propensities_upper(x, k, r1_bound)
+        B = np.sum(a_upper)
 
         # 1. When? Compute first Jump Time
-        tau = Time_To_Next_Reaction(a_upper_sum)
+        tau = Time_To_Next_Reaction(B)
 
         """ Stopping criterium: Test if we have jumped too far and if
 		yes, return the stored variables (states, times)
 		"""
-        if (t + tau > t_final) or (a_upper_sum <= 0):
+
+        if t + tau > t_final:
             return np.array(X_store), np.array(T_store)
 
         # Since we have not, we need to find the next reaction
         t = t + tau  # update time
         # 2. What? find reaction to execute and execute the reaction
         a_actual = propensities(x, k, t)
-        a_actual_sum = np.sum(a_actual)
 
-        u2 = np.random.rand()
-        while u2 == 0:
-            u2 = np.random.rand()
-
-        accepted = False
-        if u2 * a_upper_sum <= a_actual_sum:
-            # Check if any actual reaction can occur
-            if a_actual_sum > 0:
-                accepted = True
-
-        if accepted:
-            j = Find_Reaction_Index(a_actual)
-            x = x + Stochiometry[:, [j]]
-            # Store results
-            X_store.append(x[1, 0])
-            T_store.append(t)
+        j = Find_Reaction_Index(a_actual, B)
+        x = x + Stochiometry[:, [j]]
+        # Store results
+        X_store.append(x[1, 0])
+        T_store.append(t)
 
 
 # Run a number of simulations and save the respective trajectories
 for i in range(NrSimulations):
     # get a single realisation
     states, times = Extrande(S, X0, t_final, k, bound)
+    print(times)
     # a) save trajectory
     Output = np.concatenate(
         (np.array(times, ndmin=2), np.array(states, ndmin=2)), axis=0)
