@@ -131,14 +131,35 @@ def Extrande(Stochiometry, X0, t_final, k, bound):
 
         # Since we have not, we need to find the next reaction
         t = t + tau  # update time
-        # 2. What? find reaction to execute and execute the reaction
-        a_actual = propensities(x, k, t)
 
-        j = Find_Reaction_Index(a_actual, B)
-        x = x + Stochiometry[:, [j]]
-        # Store results
-        X_store.append(x[1, 0])
-        T_store.append(t)
+
+        # Acceptance / rejection according to Lecture 4, Slide 22
+        # Additional information in Extrande paper: https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1004923
+
+        # small hack as the numpy uniform random number includes 0
+        u2 = np.random.rand()
+        while u2 == 0:
+            u2 = np.random.rand()
+
+        # r1_bound / bound: Bound determined for time-dependent reaction R2, k[1] * 1.5. Same as a_upper[1]
+        # a_upper: Upper bouds for all 3 reactions, e.g. array([[1.25], [0.15], [3.75]])
+        # B: Sum of all bounds, e.g. 5.15 for 1.25 + 0.15 + 3.75
+
+        # TODO: Replace 'True' with correct formula / condition
+        if(True):
+            # Accepted, update system
+            # 2. What? find reaction to execute and execute the reaction
+            a_actual = propensities(x, k, t)
+
+            j = Find_Reaction_Index(a_actual, B)
+            x = x + Stochiometry[:, [j]]
+            # Store results
+            X_store.append(x[1, 0])
+            T_store.append(t)
+        else:
+            # Rejected, keep system as is
+            X_store.append(x[1, 0])
+            T_store.append(t)
 
 
 # Run a number of simulations and save the respective trajectories
