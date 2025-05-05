@@ -15,14 +15,10 @@ import numpy as np
 
 # import the input file
 try:
-    X0 = np.loadtxt('Input.txt', ndmin=2)  # initial state
+    In = np.loadtxt('Input.txt', ndmin=2)  # initial state
 except FileNotFoundError:
     print("Error: Input.txt not found.")
-try:
-    In = np.loadtxt('Input2.txt')  # seed and number of simulations
-except FileNotFoundError:
-    print("Error: Input.txt not found.")
-    # set the seed and the number of simulations from the input file
+
 
 np.random.seed(seed=int(In[0]))
 NrSimulations = int(In[1])
@@ -32,36 +28,48 @@ NrSimulations = int(In[1])
 
 # <------- fill in the model specifics ---->
 
-#               r1   r2  r3
-S = np.array([[-1,  0,  0],  # X1
-              [-1,  1,  1],  # X2
-              [0,  0, -1]], dtype=int)  # X3
+#              r0   r0
+S = np.array([[-1,  0],  # X0
+              [ 1, -1]], dtype=int)  # X1
 
-# reaction parameters
+# Initial system status at t(0)
+X0 = [[???] , [0.0]] # TODO: THIS. No file to read those in, and homework 2 and 4 only define x1, not x0.
 
-k = [0.01, 0.1, 0.01]  # k1, k2, k3 from the first task
+# Reaction parameters
+k = [0.5, 0.3]  # ka, ke
 
-t_final = 1.0  # final time T = 1
+# Final time for simulation
+t_final = 24.0
 
 # <------------------------------>
 
 # <------- fill in the reaction rate functions ---->
-# reaction propensities
 
+# Get the upper bounds for reactions at timepoint t
+# Upperbound calculation for R[1]
+# max(sin(x)) = 1 for x = t * 180, t in [0, inf)
+# 0.5(sin(t * 180) + 2) = 0.5(1 + 2) = 1.5
+# So upper bound will be X[1] * k[1] * 1.5 (OR: x1(t) * ke * 1.5 )
+def bounds(X, k):
+    b = np.zeros((2, 1))
+    b[0] = k[0] * X[0] # ka * x0(t)
+    b[1] = k[1] * X[1] * 1.5 # ke * x1(t) *1.5
+    return b
 
-def propensities(X, k):
-    R = np.zeros((3, 1))
-    R[0] = X[0]*X[1]*k[0]
-    R[1] = k[1]
-    R[2] = X[1]*X[2]*k[2]
+# reaction propensities / reaction rates
+def propensities(X, k, t):
+    R = np.zeros((2, 1))
+    R[0] = k[0] * X[0] # ka * x0
+    R[1] = X[1] * k[1] * 0.5 * (np.sin(np.radians(t*180)) + 2) # ke * x1 in Homework 2. Homework 4 modified to x1(t) * ke * 0.5 * (sin(t*180) + 2)
     return R
 # <------------------------------>
 
 
-def Time_To_Next_Reaction(lam):
+# For Extrande use upper bound B instead of lambda, B being equal or larger than the sum of the reaction rates
+def Time_To_Next_Reaction(B):
     """
-    @brief The function samples from an exponential distribution with rate "lam".
-    @param lam : real value positive.
+    @brief The function samples from an exponential distribution with rate "B".
+    @param B : real value positive.
     """
 
     # small hack as the numpy uniform random number includes 0
@@ -69,14 +77,15 @@ def Time_To_Next_Reaction(lam):
     while r == 0:
         r = np.random.rand()
 
-    return (1.0/lam)*np.log(1.0/r)
+    return (1.0/B)*np.log(1.0/r)
 
 
-def Find_Reaction_Index(a):
+def Find_Reaction_Index(a,b):
     """
     @brief The function takes in the reaction rate vector and returns
     the index of the reaction to be fired of a possible reaction candidate.
     @param a : Array (num_reaction,1)
+    @param b : Sum of upper bounds B
 
     """
 
@@ -85,36 +94,44 @@ def Find_Reaction_Index(a):
     while r == 0:
         r = np.random.rand()
 
-    return np.sum(np.cumsum(a) < r*np.sum(a))
+    #return np.sum(np.cumsum(a) < r*np.sum(a))
+    return np.sum((np.cumsum(a)+b) < r*(np.sum(a)+b)) # Interval to choose from must include probability for rejection
 
 
-def SSA(Stochiometry, X0, t_final, k):
+def Extrande(Stochiometry, X0, t_final, k):
     """
-    @brief  The Stochastic Simulation Algorithm. Given the stochiometry,
-    propensities and the initial state; the algorithm
-    gives a stochastic trajectory of the Kurtz process until $t_final.$
+    @brief  Extrande Algorithm. Given the stochiometry,
+    propensities, the initial state and bounds for the reactions; the algorithm
+    gives a stochastic trajectory until $t_final.$
 
     @param Stochiometry : Numpy Array (Num_species,Num_reaction).
     @param X_0: Numpy Array (Num_species, 1).
     @param t_final : positive number.
-    @param k1,k2,k3,k4: positive numbers  (reaction rate parameters)
+    @param ka,ke: positive numbers  (reaction rate parameters)
+    @param bound: Numpy Array (Num_reactions, 1)
 
     """
 
-    # for storage
+    # For storage
     X_store = []
     T_store = []
-    # initialize
+
+    # Initialize
     t = 0.0
-    x = X0
+    x = X0.copy()
     X_store.append(x[1, 0])
     T_store.append(t)
 
     while t < t_final:
-        # compte reaction rate functions
-        a = propensities(x, k)
+        # Compute upper bounds for all reactions
+        upperbounds = bounds(x, k)
+        B = np.sum(upperbounds) # Get sum of all upper bounds of all rections for boundary B
+
         # 1. When? Compute first Jump Time
-        tau = Time_To_Next_Reaction(np.sum(a))
+        tau = Time_To_Next_Reaction(B)
+
+        # compte reaction rate functions
+        a = propensities(x, k, t)
 
         """ Stopping criterium: Test if we have jumped too far and if
 		yes, return the stored variables (states, times)
@@ -125,19 +142,27 @@ def SSA(Stochiometry, X0, t_final, k):
             # Since we have not, we need to find the next reaction
             t = t + tau  # update time
             # 2. What? find reaction to execute and execute the reaction
-            j = Find_Reaction_Index(a)
-            x = x + Stochiometry[:, [j]]
-            # Update Our Storage
-            X_store.append(x[1, 0])
-            T_store.append(t)
+            j = Find_Reaction_Index(a,B)
+            # Check if reaction was rejected
+            if(j>size(k)):
+                # Chosen reaction to fire is outside of number of reactions -> Rejected
+                # Update our storage, keeping system as is
+                X_store.append(x[1])
+                T_store.append(t)
+            else:
+                # Actual reaction fires, update system
+                x = x + Stochiometry[:, [j]]
+                # Update our storage
+                X_store.append(x[1])
+                T_store.append(t)
 
 
 # Run a number of simulations and save the respective trajectories
 for i in range(NrSimulations):
     # get a single realisation
-    states, times = SSA(S, X0, t_final, k)
+    states, times = Extrande(S, X0, t_final, k)
     # a) save trajectory
     Output = np.concatenate(
         (np.array(times, ndmin=2), np.array(states, ndmin=2)), axis=0)
-    np.savetxt('Task2Traj'+str(i+1)+'.txt', Output, delimiter=',', fmt='%1.3f')
-    print('Task2Traj ' + str(i+1) + ' filled.')
+    np.savetxt('Task4Traj'+str(i+1)+'_TEST.txt', Output, delimiter=',', fmt='%1.3f') # TODO: '_TEST' entfernen
+    print('Task4Traj ' + str(i+1) + ' filled.')
