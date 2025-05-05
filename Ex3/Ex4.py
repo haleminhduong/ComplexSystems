@@ -164,5 +164,5 @@ for i in range(NrSimulations):
     # a) save trajectory
     Output = np.concatenate(
         (np.array(times, ndmin=2), np.array(states, ndmin=2)), axis=0)
-    np.savetxt('Task4Traj'+str(i+1)+'_TEST.txt', Output, delimiter=',', fmt='%1.3f') # TODO: '_TEST' entfernen
+    np.savetxt('Task4Traj'+str(i+1)+'_TEST.txt', Output, delimiter=',', fmt='%1.2f') # TODO: '_TEST' entfernen
     print('Task4Traj ' + str(i+1) + ' filled.')
