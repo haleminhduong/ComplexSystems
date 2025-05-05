@@ -132,10 +132,10 @@ Finally, combining the stoichiometric matrix $S$ and rate function vector $R$ we
 \begin{minipage}{.5\linewidth}
 $
 \begin{matrix*}[c]
-	\frac{d}{dt} X_0 & = & - & \underbrace{k_a * x_0}	&	& 							\\ 
-					 &   &   & 						r_0 &   &							\\
-	\frac{d}{dt} X_1 & = &   & \underbrace{k_a * x_0}	& - & \underbrace{k_e * x_1}	\\
-					 &   &   & 						r_0 &   &					r_1 
+	\frac{d}{dt} X_0(t) & = & - & \underbrace{k_a * x_0(t)}	&	& 							\\ 
+					    &   &   & 							r_0 &   &							\\
+	\frac{d}{dt} X_1(t) & = &   & \underbrace{k_a * x_0(t)}	& - & \underbrace{k_e * x_1(t)}	\\
+					    &   &   & 							r_0 &   &					r_1 
 \end{matrix*}
 $
 \end{minipage}
@@ -150,9 +150,30 @@ $
 %\clearpage
 \subsection*{Task 2b)}
 
-\textbf{\textcolor{red}{TODO: Analytically solve the model. Lecture 6, slides 7 and following (3 points)}}
+% Referenzen:
+% Page 5+6: https://digitalcommons.augustana.edu/cgi/viewcontent.cgi?article=1001&context=mathstudent
+% Page 3+4: https://www.uuappliedandlifesciences.com/wp-content/uploads/2022/12/Paper-9.pdf
+% Lecture 6, slide 19?
 
+We begin by solving the ODE for $x_0(t)$.
 
+\begin{align*}
+	\frac{d}{dt} x_0(t) &= - k_a * x_0(t) \\
+	\frac{1}{x_0(t)} \frac{d}{dt} X_0(t) &= - k_a \\
+	\frac{1}{x_0(t)} d X_0(t) &= - k_a dt \\
+	\int \frac{1}{x_0(t)} d X_0(t) &= \int - k_a dt \\
+	\ln \vert x_0(t) \vert &= - k_a * t + C \\
+	x_0(t) &= e^{- k_a * t + C} = e^{- k_a * t} + e^C \\
+	x_0(t) &= e^{- k_a * t}
+\end{align*}
+
+As we know $k_a = 0.5$ and $t_0 = 0$ we can plug in the values and calculate $x_0(t_0)$:
+
+\begin{center}
+	$x_0(t_0) ~ = ~ e^{- 0.5 * 0} ~ = ~ e^0 ~ = ~ 1$
+\end{center}
+
+\textbf{\textcolor{red}{TODO: Analytically solve the model, $x_1$ still needs solving. (3 points)}}
 
 %%%%%%%%%%%%%%%%%%%
 %%%	Task 3b)	%%%
