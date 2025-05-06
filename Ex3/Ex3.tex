@@ -67,16 +67,16 @@ Conversely, to halve the precision (and thus doubling the standard deviation $\s
 Therefore for the given sample Poisson process with a sample mean  $\sigma_{p}~=~0.05$ for $p~=~1000$ samplings, halving the precision to a sample mean of  $\sigma_{p}~=~0.1$ would require $p~=~250$ samplings. 
 \\
 \\
-\textbf{\textcolor{red}{TODO: Do the derivation for 1 bonus point. Ist this correct?}}
-For the derivation we do the following:
-\\
-\begin{center}
-$2* \sigma_{p} ~ = \dfrac{2}{\sqrt{n}}~$
-\\
-$2* \sigma_{p} ~ = \dfrac{2 * \frac{1}{2}}{\sqrt{n} * \frac{1}{2}}~$
-\\
-$2* \sigma_{p} ~ = \dfrac{1}{\sqrt{\frac{1}{4} * n}}~$
-\end{center}
+The standard deviation of the sample mean is the square root of its variance:
+\[
+\sigma_p = \sqrt{\text{Var}(\overline{X}^{(p)})} = \sqrt{\frac{\sigma^2}{p}} = \frac{\sigma}{\sqrt{p}}
+\]
+For half the precision, the new $\sigma$ should be twice as big,
+$\sigma_{p'} = 2 \sigma_p$:
+\[
+\frac{\sigma}{\sqrt{p'}} = 2 \frac{\sigma}{\sqrt{p}} \implies \frac{1}{\sqrt{p'}} = \frac{2}{\sqrt{p}} \implies \frac{1}{p'} = \frac{4}{p} \implies p' = \frac{p}{4}
+\]
+So, to double the standard deviation (halve the precision), the number of samples must decrease by a factor of 4. $1000 / 4 = 250$.
 
 
 
@@ -163,17 +163,68 @@ We begin by solving the ODE for $x_0(t)$.
 	\frac{1}{x_0(t)} d X_0(t) &= - k_a dt \\
 	\int \frac{1}{x_0(t)} d X_0(t) &= \int - k_a dt \\
 	\ln \vert x_0(t) \vert &= - k_a * t + C \\
-	x_0(t) &= e^{- k_a * t + C} = e^{- k_a * t} + e^C \\
+	x_0(t) &= e^{- k_a * t + C} = e^{- k_a * t} \cdot e^C \\
 	x_0(t) &= e^{- k_a * t}
 \end{align*}
+
+We will let $A = e^C$
+
+$$
+	x_0(t) = Ae^{- k_a * t}
+$$
 
 As we know $k_a = 0.5$ and $t_0 = 0$ we can plug in the values and calculate $x_0(t_0)$:
 
 \begin{center}
-	$x_0(t_0) ~ = ~ e^{- 0.5 * 0} ~ = ~ e^0 ~ = ~ 1$
+	$x_0(t_0) ~ = ~ Ae^{- 0.5 * 0} ~ = ~ Ae^0 ~ = ~ A$
 \end{center}
 
-\textbf{\textcolor{red}{TODO: Analytically solve the model, $x_1$ still needs solving. (3 points)}}
+As we understand $A$ is equal to our dose, therefore
+$$
+	x_0(t) = dose \cdot e^{- k_a * t}
+$$
+
+Solving for $x_1(t)$:
+
+Substitute $x_0(t)$ into the second ODE:
+
+\begin{align*}
+    \frac{dx_1}{dt} &= k_a (\text{dose} \cdot e^{-k_a t}) - k_e x_1\\
+    \frac{dx_1}{dt} + k_e x_1 &= k_a \cdot \text{dose} \cdot e^{-k_a t}
+\end{align*}
+
+The integrating factor is $I(t) = e^{\int k_e dt} = e^{k_e t}$.
+\begin{align*}
+e^{k_e t} \frac{dx_1}{dt} + k_e e^{k_e t} x_1 &= k_a \cdot \text{dose} \cdot e^{-k_a t} e^{k_e t}\\
+\frac{d}{dt}(x_1 e^{k_e t}) &= k_a \cdot \text{dose} \cdot e^{(k_e - k_a)t}\\
+x_1 e^{k_e t} &= \int k_a \cdot \text{dose} \cdot e^{(k_e - k_a)t} dt \\
+x_1 e^{k_e t} &= k_a \cdot \text{dose} \cdot \frac{1}{k_e - k_a} e^{(k_e - k_a)t} + C'
+\end{align*}
+
+Solve for $x_1(t)$:
+\begin{align*}
+x_1(t) &= \left( k_a \cdot \text{dose} \cdot \frac{1}{k_e - k_a} e^{(k_e - k_a)t} + C' \right) e^{-k_e t} \\
+x_1(t) &= \frac{k_a \cdot \text{dose}}{k_e - k_a} e^{-k_a t} + C' e^{-k_e t}
+\end{align*}
+
+$x_1(0) = 0$:
+
+\begin{align*}
+0 = \frac{k_a \cdot \text{dose}}{k_e - k_a} e^0 + C' e^0 \implies 0 &= \frac{k_a \cdot \text{dose}}{k_e - k_a} + C'\\
+C' = -\frac{k_a \cdot \text{dose}}{k_e - k_a}\\
+\end{align*}
+
+\begin{align*}
+x_1(t) &= \frac{k_a \cdot \text{dose}}{k_e - k_a} e^{-k_a t} - \frac{k_a \cdot \text{dose}}{k_e - k_a} e^{-k_e t}\\
+x_1(t) &= \frac{k_a \cdot \text{dose}}{k_e - k_a} (e^{-k_a t} - e^{-k_e t})\\
+\end{align*}
+$k_a=0.5$, $k_e=0.3$:
+\begin{align*}
+x_1(t) &= \frac{0.5 \cdot \text{dose}}{0.3 - 0.5} (e^{-0.5 t} - e^{-0.3 t}) \\
+&= \frac{0.5}{-0.2} \cdot \text{dose} \cdot (e^{-0.5 t} - e^{-0.3 t}) \\
+&= -2.5 \cdot \text{dose} \cdot (e^{-0.5 t} - e^{-0.3 t}) \\
+x_1(t) &= 2.5 \cdot \text{dose} \cdot (e^{-0.3 t} - e^{-0.5 t})
+\end{align*}
 
 %%%%%%%%%%%%%%%%%%%
 %%%	Task 3b)	%%%
@@ -181,8 +232,6 @@ As we know $k_a = 0.5$ and $t_0 = 0$ we can plug in the values and calculate $x_
 
 \clearpage
 \subsection*{Task 3b)}
-
-\textbf{\textcolor{red}{TODO: Add plot of 100 simulations}}
 
 \begin{figure}[htbp!]
 	\centering
@@ -209,3 +258,4 @@ As we know $k_a = 0.5$ and $t_0 = 0$ we can plug in the values and calculate $x_
 
 
 \end{document}
+
