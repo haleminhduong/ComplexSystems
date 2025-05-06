@@ -12,6 +12,7 @@
 
 import numpy as np
 # import matplotlib.pyplot as pl
+# import os # For getting and setting working directory via os.getcwd() and os.chdir()
 
 # import the input file
 try:
@@ -33,7 +34,7 @@ S = np.array([[-1,  0],  # X0
               [ 1, -1]], dtype=int)  # X1
 
 # Initial system status at t(0)
-X0 = [[???] , [0.0]] # TODO: THIS. No file to read those in, and homework 2 and 4 only define x1, not x0.
+X0 = np.array([[100.0] , [0.0]]) # TODO: Homework 2 and 4 only define x1(t0)=0.0, not x0(t0).
 
 # Reaction parameters
 k = [0.5, 0.3]  # ka, ke
@@ -52,15 +53,15 @@ t_final = 24.0
 # So upper bound will be X[1] * k[1] * 1.5 (OR: x1(t) * ke * 1.5 )
 def bounds(X, k):
     b = np.zeros((2, 1))
-    b[0] = k[0] * X[0] # ka * x0(t)
-    b[1] = k[1] * X[1] * 1.5 # ke * x1(t) *1.5
+    b[0] = k[0] * X[0,0] # ka * x0(t)
+    b[1] = k[1] * X[1,0] * 1.5 # ke * x1(t) *1.5
     return b
 
 # reaction propensities / reaction rates
 def propensities(X, k, t):
     R = np.zeros((2, 1))
-    R[0] = k[0] * X[0] # ka * x0
-    R[1] = X[1] * k[1] * 0.5 * (np.sin(np.radians(t*180)) + 2) # ke * x1 in Homework 2. Homework 4 modified to x1(t) * ke * 0.5 * (sin(t*180) + 2)
+    R[0] = X[0,0] * k[0] # ka * x0
+    R[1] = X[1,0] * k[1] * 0.5 * (np.sin(np.radians(t*180)) + 2) # ke * x1 in Homework 2. Homework 4 modified to x1(t) * ke * 0.5 * (sin(t*180) + 2)
     return R
 # <------------------------------>
 
@@ -95,7 +96,8 @@ def Find_Reaction_Index(a,b):
         r = np.random.rand()
 
     #return np.sum(np.cumsum(a) < r*np.sum(a))
-    return np.sum((np.cumsum(a)+b) < r*(np.sum(a)+b)) # Interval to choose from must include probability for rejection
+    # Interval to choose from must include probability for rejection
+    return np.sum((np.cumsum(a)+b) < r*(np.sum(a)+b)) # TODO: Probably implemented this wrongly.
 
 
 def Extrande(Stochiometry, X0, t_final, k):
@@ -119,7 +121,7 @@ def Extrande(Stochiometry, X0, t_final, k):
     # Initialize
     t = 0.0
     x = X0.copy()
-    X_store.append(x[1, 0])
+    X_store.append(x[1,0])
     T_store.append(t)
 
     while t < t_final:
@@ -144,16 +146,16 @@ def Extrande(Stochiometry, X0, t_final, k):
             # 2. What? find reaction to execute and execute the reaction
             j = Find_Reaction_Index(a,B)
             # Check if reaction was rejected
-            if(j>size(k)):
+            if(j >= size(k) ):
                 # Chosen reaction to fire is outside of number of reactions -> Rejected
                 # Update our storage, keeping system as is
-                X_store.append(x[1])
+                X_store.append(x[1,0])
                 T_store.append(t)
             else:
                 # Actual reaction fires, update system
                 x = x + Stochiometry[:, [j]]
                 # Update our storage
-                X_store.append(x[1])
+                X_store.append(x[1,0])
                 T_store.append(t)
 
 
