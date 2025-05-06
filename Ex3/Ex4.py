@@ -95,9 +95,18 @@ def Find_Reaction_Index(a,b):
     while r == 0:
         r = np.random.rand()
 
+
+    rej = np.sum(a)/b # As described in lecture 4, slide 22
+    if(r > rej):
+        # Reject, choose index out of bounds
+        return size(a)
+    else:
+        # Find which index to fire. Note that probability for rejection must be included in this as we're not drawing a new random variable.
+
+
     #return np.sum(np.cumsum(a) < r*np.sum(a))
     # Interval to choose from must include probability for rejection
-    return np.sum((np.cumsum(a)+b) < r*(np.sum(a)+b)) # TODO: Probably implemented this wrongly.
+    #return np.sum((np.cumsum(a)+b) < r*(np.sum(a)+b)) # TODO: Probably implemented this wrongly.
 
 
 def Extrande(Stochiometry, X0, t_final, k):
