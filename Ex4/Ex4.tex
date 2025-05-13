@@ -64,7 +64,46 @@ Initial condition: $x_0(t_0)>0 ,~ t_0=0$
 \end{center}
 }
 
-\textbf{\textcolor{red}{TODO}}
+The general form of the equation:
+
+$$
+\frac{dx}{dt} = -f(t)x + k(t)
+$$
+The solution formula:
+
+$$
+x(t) = e^{-\phi(t)} \left( \int_{t_0}^{t} e^{\phi(s)} k(s) ds + x(t_0) \right)
+$$
+
+where $\phi(t) = \int f(t)dt$ 
+
+
+$$
+\frac{dx}{dt} = k \cdot t \cdot x + t^2
+$$
+
+\begin{align*}
+f(t) &= -k \cdot t \\
+k(t) &= t^2
+\end{align*}
+
+
+$$
+\phi(t) = \int f(t) dt = \int (-k \cdot t) dt = -k \frac{t^2}{2}
+$$
+
+\begin{align*}
+    \phi(s) &= -k_{prob}\frac{s^2}{2} \\
+    e^{\phi(s)} &= e^{-k\frac{s^2}{2}}\\
+    e^{-\phi(t)} &= e^{-(-k\frac{t^2}{2})} = e^{k\frac{t^2}{2}} \\
+    k(s) &= s^2
+\end{align*}
+
+With $x_0(t_0) = C > 0$
+
+$$
+x(t) = e^{k\frac{t^2}{2}} \left( \int_{0}^{t} e^{-k\frac{s^2}{2}} s^2 ds + C \right)
+$$
 
 
 %%%%%%%%%%%%%%%%%%%
