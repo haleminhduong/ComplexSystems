@@ -39,7 +39,35 @@ dt_store = 0.5  # Step size
 # 1.25 * x0(t_{n+1}) = x0(t_n)
 # x0(t_{n+1}) = 0.8 * x0(t_n)
 
+<<<<<<< Updated upstream
 # --- Read Initial Conditions from Input.txt ---
+=======
+# TODO: Remove this comment:
+    # Code based on:
+        # https://www.youtube.com/watch?v=N7Oh0mk4YGc
+        # https://jonshiach.github.io/ODEs-book/_pages/B_Python_code.html
+
+# f: function of IVP tp solve
+# tspan: Time span to solve for, here [0,t_final]
+# X0: Initial value for x0 and x1, [x0(t0), x1(t0)]
+# deltaT: Time step size
+# solver: Generic name for solver function to use for solving the IVP. We'll use our own euler_implicit
+def solveIVP(f, tspan, X0, deltaT, solver):
+
+    # Initialise t and y arrays
+    t = np.arange(tspan[0], tspan[1] + 1e-6, deltaT) # Range is [0,t_final], so t_final is included.
+    x0 = np.zeros(len(t)) # Preallocate space for solution
+    x1 = np.zeros(len(t)) # Preallocate space for solution
+    t[0] = tspan[0]
+    x0[0,:] = X0[0] # Set the initial value for x0(t0)
+    x1[0,:] = X0[1] # Set the initial value for x1(t0)
+
+    # Go through all time points and calculate single step solver solution
+    for n in range(len(t) - 1):
+        x1[n+1,:] = solver(f, t[n], x1[n,:], deltaT)
+
+    return t, x1
+>>>>>>> Stashed changes
 
 # Initialize simulation variables
 t_current = 0.0
@@ -47,13 +75,39 @@ x = X0.copy()
 x0_current = x[0, 0]
 x1_current = x[1, 0]
 
+<<<<<<< Updated upstream
 T_Store = [t_current]
 X1_Store = [x1_current]
+=======
+# Single step solution for the implicit euler method
+def euler(f, t, y, h):
+    return y + h * f(t, y)
+>>>>>>> Stashed changes
 
 num_steps = int(round(t_final / dt_store))
 
+<<<<<<< Updated upstream
 for _ in range(num_steps):
     x0_next = 0.8 * x0_current
+=======
+# Define function of IVP to solve
+def f(t, y):
+    return t * y # TODO: Proper function.
+
+    # Solved equation for x0(t) and plugged into x1(t) to solve it in Homework 3, Task 2b)
+    # x0 = dose * np.exp(-k[0] * t)                             # x0(t) = dose * e^(-ka * t)
+    # x1 = 2.5 * dose * (np.exp(-k[1]*t) - np.exp(-k[0]*t))     # x1(t) = 2.5 * dose * ( e^(-ke*t) - e^(-ka*t) )
+
+
+
+# Define IVP parameters
+tspan = [0, 1]  # boundaries of the t domain
+y0 = [1]        # solution at the lower boundary
+h = 0.2         # step length
+
+# Calculate the solution to the IVP
+t, y = solveIVP(f, tspan, y0, h, euler)
+>>>>>>> Stashed changes
 
     x1_next = (x1_current + 0.2 * x0_current)/1.15
 
