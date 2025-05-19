@@ -1,0 +1,223 @@
+\documentclass[]{scrartcl}
+%\usepackage{graphicx}
+%\usepackage{amsmath} % For equation alignment
+\usepackage{amssymb} % For special math characters such as E with two vertical lines (expectation value symbol)
+\usepackage{mathtools} % For some extra math-related functionality, such as matrix*
+%\usepackage{hyperref} % For using \autoref
+%\usepackage{listings} % For adding code to the latex document
+%\usepackage{caption} % For adding captions
+\usepackage{color} % For color in code
+\usepackage{nicematrix} % For creating matrices with outer rows and columns, with dsahed line separators. Documentation: https://ctan.org/pkg/nicematrix
+%\usepackage{float} % For better control over float environments
+%\usepackage[utf8]{inputenc} % this is needed for umlauts
+%\usepackage[ngerman]{babel} % this is needed for umlauts
+%\usepackage[T1]{fontenc}    % this is needed for correct output of umlauts in pdf
+
+
+
+
+% Opening / Title
+\title{Complex Systems for Bioinformaticians \\ \vspace{2mm} Exercise 5 \\ \vspace{2mm}}
+\subtitle{Lecturers: Prof. Dr. Max von Kleist, Prof. Dr. Jana Wolf, Prof. Dr. Martin Vingron}
+\author{Kristian Reinhart, 4474140 \\ Duong Ha Le Minh, 5314209}
+\newenvironment{tightcenter}{%
+  \setlength\topsep{0pt}
+  \setlength\parskip{0pt}
+  \begin{center}
+}{%
+  \end{center}
+}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%	Begin actual document	%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+
+
+
+
+\maketitle
+
+
+
+
+\section*{5. Exercise (Block II-Assignment 1)}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%			Task 1 ODE			%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{1 Exercise}
+
+\textit{Consider the system of differential equations:
+\begin{center}
+\begin{align*}
+	\frac{dx}{dt} & = \dot{x} =  x^2 - y & \hspace{4em} & \rlap{\footnotesize (Non-linear)} \\
+	\frac{dy}{dt} & = \dot{y} =  x + y   & \hspace{4em} & \rlap{\footnotesize (Linear)} \\
+\end{align*}
+\end{center}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%
+%%%	Task 1a)	%%%
+%%%%%%%%%%%%%%%%%%%
+
+\subsubsection*{1a)}
+
+Nullclines are lines / curves in the phase plane where at least one of the derivatives of the ODE system is zero. Therefore to determine the nullclines we set the equations of the ODE to 0.
+
+\begin{center}
+Nullcline for the first equation of the given ODE: $\dot{x} = 0$
+\begin{align*}
+	0 & = x^2 - y &				 &  \\
+	y & = x^2     & \hspace{4em} & \rlap{\footnotesize (Nullcline)} \\
+\end{align*}
+\end{center}
+
+
+\begin{center}
+Nullcline for the second equation of the given ODE: $\dot{y} = 0$
+\begin{align*}
+	0 & = x + y &			   &  \\
+	y & = -x    & \hspace{4em} & \rlap{\footnotesize (Nullcline)} \\
+\end{align*}
+\end{center}
+
+Steady states are states where nullclines of the system intersect, i.e. where all derivatives of the ODE system are zero.
+From the second equation we know $y = -x$ and can insert it into the first equation to solve it.
+
+\begin{center}
+\begin{align*}
+	0 & = x^2 - (-x)	&			   &  \\
+	0 & = x^2 + x		& \hspace{4em} & \rlap{\footnotesize (PQ-formula can be applied,} \\
+	  &					& \hspace{4em} & \rlap{\footnotesize but rewriting equation easier)} \\
+	0 & = x (x + 1)		&			   &  \\
+	x   & = 0 ~ \mathrm{or} ~ x=-1  & \hspace{4em} 	& \rlap{\footnotesize (Steady state x values)} \\
+\end{align*}
+\end{center}
+
+Having determined the values of $x$ for the steady states we can insert them into the second formula $y = -x$ to obtain the steady state values for $y$:
+
+\begin{center}
+\begin{align*}
+	x=0: 	& \hspace{2em} & y = -0	    & \hspace{2em} \Rightarrow & y = 0 \\
+	x=-1: 	& \hspace{2em} & y = -(-1)	& \hspace{2em} \Rightarrow & y = 1 \\
+\end{align*}
+\end{center}
+
+Thus we obtain the steady states $(0,0)$ and $(-1,1)$.
+
+%%%%%%%%%%%%%%%%%%%
+%%%	Task 1b)	%%%
+%%%%%%%%%%%%%%%%%%%
+
+\subsubsection*{1b)}
+
+
+
+%%%%%%%%%%%%%%%%%%%
+%%%	Task 1c)	%%%
+%%%%%%%%%%%%%%%%%%%
+
+\subsubsection*{1c)}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%
+%%%	Task 1d)	%%%
+%%%%%%%%%%%%%%%%%%%
+
+\subsubsection*{1d)}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%			Task 2 ODE			%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{2 Exercise}
+
+\textit{Consider the system of nonlinear differential equations:
+\begin{center}
+\begin{align*}
+	\frac{dx}{dt} & = \dot{x} =  x^2 - 1 & \hspace{4em} & \rlap{\footnotesize (Non-linear)} \\
+	\frac{dy}{dt} & = \dot{y} =  2y      & \hspace{4em} & \rlap{\footnotesize (Linear)} \\
+\end{align*}
+\end{center}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%
+%%%	Task 2a)	%%%
+%%%%%%%%%%%%%%%%%%%
+
+\subsubsection*{2a)}
+
+\begin{center}
+Nullcline for the first equation of the given ODE: $\dot{x} = 0$
+\begin{align*}
+	0   & = x^2 - 1 				&				&  \\
+	x^2 & = 1 						&				&  \\
+	x   & = 1 ~ \mathrm{or} ~ x=-1  & \hspace{4em} 	& \rlap{\footnotesize (Nullcline)} \\
+\end{align*}
+\end{center}
+
+
+\begin{center}
+Nullcline for the second equation of the given ODE: $\dot{y} = 0$
+\begin{align*}
+	0  & = 2y &					&  \\
+	2y & = 0  &					&  \\
+	 y & = 0  & \hspace{4em}	& \rlap{\footnotesize (Nullcline)} \\
+\end{align*}
+\end{center}
+
+Steady states are states where nullclines of the system intersect, i.e. where all derivatives of the ODE system are zero.
+In this case as both equations of the ODE only contain one variable we can directly conclude the steady states from the determined nullclines.
+\\
+The steady states of this ODE are $(1,0)$ and $(-1,0)$.
+
+
+
+%%%%%%%%%%%%%%%%%%%
+%%%	Task 2b)	%%%
+%%%%%%%%%%%%%%%%%%%
+
+\subsubsection*{2b)}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%
+%%%	Task 2c)	%%%
+%%%%%%%%%%%%%%%%%%%
+
+\subsubsection*{2c)}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%
+%%%	Task 2d)	%%%
+%%%%%%%%%%%%%%%%%%%
+
+\subsubsection*{2d)}
+
+
+
+
+
+\end{document}
+
+
