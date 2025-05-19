@@ -1,13 +1,13 @@
 \documentclass[]{scrartcl}
 %\usepackage{graphicx}
-%\usepackage{amsmath} % For equation alignment
-\usepackage{amssymb} % For special math characters such as E with two vertical lines (expectation value symbol)
-\usepackage{mathtools} % For some extra math-related functionality, such as matrix*
+\usepackage{amsmath} % For equation alignment, bmatrix
+\usepackage{amssymb} % For special math characters such as E with two vertical lines (expectation value symbol), Real numbers symbol, etc
+%\usepackage{mathtools} % For some extra math-related functionality, such as matrix*
 %\usepackage{hyperref} % For using \autoref
 %\usepackage{listings} % For adding code to the latex document
 %\usepackage{caption} % For adding captions
 \usepackage{color} % For color in code
-\usepackage{nicematrix} % For creating matrices with outer rows and columns, with dsahed line separators. Documentation: https://ctan.org/pkg/nicematrix
+%\usepackage{nicematrix} % For creating matrices with outer rows and columns, with dsahed line separators. Documentation: https://ctan.org/pkg/nicematrix
 %\usepackage{float} % For better control over float environments
 %\usepackage[utf8]{inputenc} % this is needed for umlauts
 %\usepackage[ngerman]{babel} % this is needed for umlauts
@@ -120,7 +120,84 @@ Thus we obtain the steady states $(0,0)$ and $(-1,1)$.
 
 \subsubsection*{1b)}
 
+We first rewrite our ODE as a vector of functions:
 
+\[
+f(x,y) ~=~ \left[ \begin{array}{c} f_1(x,y) \\ f_2(x,y) \end{array} \right] ~=~ \left[ \begin{array}{c} x^2 - y \\ x + y \end{array} \right]
+\]
+
+The Jacobi matrix is defined as 
+\[
+J(x,a) ~=~ \frac{\partial f}{\partial x}(a) ~=~
+\begin{bmatrix}
+  \frac{\partial f_1}{\partial x_1}(a) &  \dots & \frac{\partial f_1}{\partial x_n}(a) \\[1ex] % <-- 1ex more space between rows of matrix
+  								\vdots &		& \vdots \\[1ex]
+  \frac{\partial f_n}{\partial x_1}(a) &  \dots & \frac{\partial f_n}{\partial x_n}(a)
+\end{bmatrix}
+\]
+
+and can be applied if $f: D \rightarrow \mathbb{R}^n$ differentiable, $a \in D \subseteq \mathbb{R}^n$. Our functions are sufficiently differentiable, therefore we can proceed.
+\\ \\
+For the given ODE we thus have the following Jacobi matrix:
+
+\[
+J(x,y) ~=~ \frac{\partial f}{\partial x}(a) ~=~
+\begin{bmatrix}
+  \frac{\partial f_1}{\partial x} & \frac{\partial f_1}{\partial y} \\[1ex] % <-- 1ex more space between rows of matrix
+  \frac{\partial f_2}{\partial x} & \frac{\partial f_2}{\partial y}
+\end{bmatrix}
+\]
+
+With the Jacobi matrix general form we can now calculate the partial derivatives:
+
+\begin{center}
+\begin{align*}
+	\frac{\partial f_1}{\partial x} &= \frac{\partial}{\partial x}(x^2 - y) &= & 2x \\
+	\frac{\partial f_1}{\partial y} &= \frac{\partial}{\partial y}(x^2 - y) &= & -1 \\
+	\frac{\partial f_2}{\partial x} &= \frac{\partial}{\partial x}(x + y)	&= & 1 \\
+	\frac{\partial f_2}{\partial y} &= \frac{\partial}{\partial y}(x + y)	&= & 1 \\
+\end{align*}
+\end{center}
+
+Having determined the partial derivatives we can write the completed Jacobi matrix:
+
+\[
+J(x,y) ~=~
+\begin{bmatrix}
+  2x & -1 \\[1ex] % <-- 1ex more space between rows of matrix
+  1 & 1
+\end{bmatrix}
+\]
+
+Finally we can evaluate the Jacobi matrix at the previously determined steady states $(0,0)$ and $(-1,1)$:
+
+\[
+J(0,0) 
+~=~
+\begin{bmatrix}
+  2*0 & -1 \\[1ex] % <-- 1ex more space between rows of matrix
+  1 & 1
+\end{bmatrix}
+~=~
+\begin{bmatrix}
+  0 & -1 \\[1ex] % <-- 1ex more space between rows of matrix
+  1 & 1
+\end{bmatrix}
+\]
+
+\[
+J(-1,1) 
+~=~
+\begin{bmatrix}
+  2*(-1) & -1 \\[1ex] % <-- 1ex more space between rows of matrix
+  1 & 1
+\end{bmatrix}
+~=~
+\begin{bmatrix}
+  -2 & -1 \\[1ex] % <-- 1ex more space between rows of matrix
+  1 & 1
+\end{bmatrix}
+\]
 
 %%%%%%%%%%%%%%%%%%%
 %%%	Task 1c)	%%%
@@ -196,7 +273,74 @@ The steady states of this ODE are $(1,0)$ and $(-1,0)$.
 
 \subsubsection*{2b)}
 
+We first rewrite our ODE as a vector of functions:
 
+\[
+f(x,y) ~=~ \left[ \begin{array}{c} f_1(x,y) \\ f_2(x,y) \end{array} \right] ~=~ \left[ \begin{array}{c} x^2 - 1 \\ 2y \end{array} \right]
+\]
+
+Our functions are sufficiently differentiable, therefore we can proceed.
+\\ \\
+Following the definition of the Jacobi matrix, for the given ODE we thus have the following matrix:
+
+\[
+J(x,y) ~=~ \frac{\partial f}{\partial x}(a) ~=~
+\begin{bmatrix}
+  \frac{\partial f_1}{\partial x} & \frac{\partial f_1}{\partial y} \\[1ex] % <-- 1ex more space between rows of matrix
+  \frac{\partial f_2}{\partial x} & \frac{\partial f_2}{\partial y}
+\end{bmatrix}
+\]
+
+We now calculate the partial derivatives:
+
+\begin{center}
+\begin{align*}
+	\frac{\partial f_1}{\partial x} &= \frac{\partial}{\partial x}(x^2 - 1) &= & 2x \\
+	\frac{\partial f_1}{\partial y} &= \frac{\partial}{\partial y}(x^2 - 1) &= & 0 \\
+	\frac{\partial f_2}{\partial x} &= \frac{\partial}{\partial x}(2y)	&= & 0 \\
+	\frac{\partial f_2}{\partial y} &= \frac{\partial}{\partial y}(2y)	&= & 2 \\
+\end{align*}
+\end{center}
+
+Having determined the partial derivatives we can write the completed Jacobi matrix:
+
+\[
+J(x,y) ~=~
+\begin{bmatrix}
+  2x & 0 \\[1ex] % <-- 1ex more space between rows of matrix
+  0 & 2
+\end{bmatrix}
+\]
+
+Finally we can evaluate the Jacobi matrix at the previously determined steady states $(1,0)$ and $(-1,0)$:
+
+\[
+J(1,0) 
+~=~
+\begin{bmatrix}
+  2*1 & 0 \\[1ex] % <-- 1ex more space between rows of matrix
+  0 & 2
+\end{bmatrix}
+~=~
+\begin{bmatrix}
+  2 & 0 \\[1ex] % <-- 1ex more space between rows of matrix
+  0 & 2
+\end{bmatrix}
+\]
+
+\[
+J(-1,0) 
+~=~
+\begin{bmatrix}
+  2*(-1) & 0 \\[1ex] % <-- 1ex more space between rows of matrix
+  0 & 2
+\end{bmatrix}
+~=~
+\begin{bmatrix}
+  -2 & 0 \\[1ex] % <-- 1ex more space between rows of matrix
+  0 & 2
+\end{bmatrix}
+\]
 
 
 %%%%%%%%%%%%%%%%%%%
