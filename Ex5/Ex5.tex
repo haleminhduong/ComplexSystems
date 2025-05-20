@@ -8,7 +8,7 @@
 %\usepackage{caption} % For adding captions
 \usepackage{color} % For color in code
 %\usepackage{nicematrix} % For creating matrices with outer rows and columns, with dsahed line separators. Documentation: https://ctan.org/pkg/nicematrix
-%\usepackage{float} % For better control over float environments
+\usepackage{float} % For better control over float environments
 %\usepackage[utf8]{inputenc} % this is needed for umlauts
 %\usepackage[ngerman]{babel} % this is needed for umlauts
 %\usepackage[T1]{fontenc}    % this is needed for correct output of umlauts in pdf
@@ -205,9 +205,9 @@ J(-1,1)
 
 \subsubsection*{1c)}
 
-Given $\det(J - \lambda I) = 0$.
-Find the eigenvalues.
-
+Given $\det(J - \lambda I) = 0$, find the eigenvalues:
+\\
+\\
 Steady state $(0,0)$:
 $$J(0,0) = \begin{bmatrix} 0 & -1 \\ 1 & 1 \end{bmatrix}$$.
 
@@ -217,8 +217,10 @@ $$\lambda^2 - \lambda + 1 = 0$$
 
 $$\lambda = \frac{-(-1) \pm \sqrt{(-1)^2 - 4 \cdot 1 \cdot 1}}{2 \cdot 1} = \frac{1 \pm \sqrt{1-4}}{2} = \frac{1 \pm \sqrt{-3}}{2} = \frac{1}{2} \pm i\frac{\sqrt{3}}{2}$$
 The eigenvalues are $\lambda_1 = \frac{1}{2} + i\frac{\sqrt{3}}{2}$ and $\lambda_2 = \frac{1}{2} - i\frac{\sqrt{3}}{2}$.
+\\
 Since $\mathrm{Re}(\lambda) = 1/2 > 0$, the steady state $(0,0)$ is an \textbf{unstable spiral}.
-
+\\
+\\
 For the steady state $(-1,1)$:
 $$J(-1,1) = \begin{bmatrix} -2 & -1 \\ 1 & 1 \end{bmatrix}$$
 
@@ -228,8 +230,27 @@ $$\lambda^2 + \lambda - 1 = 0$$
 
 $$\lambda = \frac{-1 \pm \sqrt{1^2 - 4 \cdot 1 \cdot (-1)}}{2 \cdot 1)} = \frac{-1 \pm \sqrt{1+4}}{2} = \frac{-1 \pm \sqrt{5}}{2}$$
 The eigenvalues are $\lambda_1 = \frac{-1 + \sqrt{5}}{2}$ and $\lambda_2 = \frac{-1 - \sqrt{5}}{2}$.
+\\
 Since $\sqrt{5} \approx 2.236$, we have $\lambda_1 \approx \frac{-1 + 2.236}{2} = \frac{1.236}{2} \approx 0.618 > 0$ and $\lambda_2 \approx \frac{-1 - 2.236}{2} = \frac{-3.236}{2} \approx -1.618 < 0$.
+\\
 The eigenvalues are real and have opposite signs. The steady state $(-1,1)$ is a \textbf{saddle point}.
+
+
+
+
+%%%%%%%%%%%%%%%%%%%
+%%%	Task 1d)	%%%
+%%%%%%%%%%%%%%%%%%%
+
+\subsubsection*{1d)}
+
+We implemented the ODE in Python and drew the phase portrait:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{phase_portrait_1.png}
+\end{figure}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -364,22 +385,33 @@ J(-1,0)
 \subsubsection*{2c)}
 
 Since the Jacobian matrices are diagonal, the eigenvalues are simply the diagonal entries.
-
+\\
+\\
 For the steady state $(1,0)$:
+\\
 The Jacobian matrix is $J(1,0) = \begin{bmatrix} 2 & 0 \\ 0 & 2 \end{bmatrix}$.
+\\
 The eigenvalues are $\lambda_1 = 2$ and $\lambda_2 = 2$.
+\\
 Since both eigenvalues are real, positive, and equal, the steady state $(1,0)$ is an \textbf{unstable star point or improper node}.
-
+\\
+\\
 For the steady state $(-1,0)$:
+\\
 The Jacobian matrix is $J(-1,0) = \begin{bmatrix} -2 & 0 \\ 0 & 2 \end{bmatrix}$.
+\\
 The eigenvalues are $\lambda_1 = -2$ and $\lambda_2 = 2$.
+\\
 Since the eigenvalues are real and have opposite signs ($\lambda_1 < 0$, $\lambda_2 > 0$), the steady state $(-1,0)$ is a \textbf{saddle point}.
 
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\textwidth]{phase_portrait_1.png}
-\end{figure}
+%%%%%%%%%%%%%%%%%%%
+%%%	Task 2d)	%%%
+%%%%%%%%%%%%%%%%%%%
+
+\subsubsection*{2d)}
+
+We implemented the ODE in Python and drew the phase portrait:
 
 \begin{figure}[H]
     \centering
