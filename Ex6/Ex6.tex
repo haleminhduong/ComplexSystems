@@ -1,0 +1,247 @@
+\documentclass[]{scrartcl}
+\usepackage{graphicx}
+\usepackage{amsmath} % For equation alignment, bmatrix
+\usepackage{amssymb} % For special math characters such as E with two vertical lines (expectation value symbol), Real numbers symbol, etc
+\usepackage{witharrows} % For an aligned math environment where arrows show which transformation steps were taken
+%\usepackage{mathtools} % For some extra math-related functionality, such as matrix*
+%\usepackage{hyperref} % For using \autoref
+%\usepackage{listings} % For adding code to the latex document
+%\usepackage{caption} % For adding captions
+\usepackage{color} % For color in code
+%\usepackage{nicematrix} % For creating matrices with outer rows and columns, with dsahed line separators. Documentation: https://ctan.org/pkg/nicematrix
+\usepackage{float} % For better control over float environments
+%\usepackage[utf8]{inputenc} % this is needed for umlauts
+%\usepackage[ngerman]{babel} % this is needed for umlauts
+%\usepackage[T1]{fontenc}    % this is needed for correct output of umlauts in pdf
+
+
+
+
+% Opening / Title
+\title{Complex Systems in Bioinformatics \\ \vspace{2mm} Exercise 6 \\ \vspace{2mm}}
+\subtitle{Lecturers: Prof. Dr. Max von Kleist, Prof. Dr. Jana Wolf, Prof. Dr. Martin Vingron}
+\author{Kristian Reinhart, 4474140 \\ Duong Ha Le Minh, 5314209}
+\newenvironment{tightcenter}{%
+  \setlength\topsep{0pt}
+  \setlength\parskip{0pt}
+  \begin{center}
+}{%
+  \end{center}
+}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%	Begin actual document	%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+
+
+
+
+\maketitle
+
+
+
+
+\section*{6. Exercise (Block II-Assignment 2)}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%			Exercise ODE		%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection*{ODE System}
+
+\textit{Consider the system of differential equations:
+\begin{center}
+% \frac{dx}{dt} & = \dot{x} =  v_0 - k_1 x y^2 & \hspace{4em} & \rlap{\footnotesize (Right-side comment if wanted)}  \\
+\begin{align*}
+	\frac{dx}{dt} & = \dot{x} =  v_0 - k_1 x y^2 \\
+	\frac{dy}{dt} & = \dot{y} =  k_1 x y^2 - k_2 y \\
+\end{align*}
+\end{center}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%
+%%%	Task a)	%%%
+%%%%%%%%%%%%%%%%%%%
+
+\subsubsection*{a)}
+
+To determine steady states of the system all equations of the ODE must equate to 0.
+\\
+As the highest-order term of the equations is of the second order we can expect up to two steady states for the given system.
+\\
+We begin with the second equation
+\begin{center}
+\[
+\begin{WithArrows}
+	0 & = k_1 x y^2 - k_2y \Arrow{ factor out y} \\
+	0 & = y(k_1 x y - k_2) \Arrow{$|:y,~ |+k_2,~ |:k_1 y$} \\
+	\frac{k_2}{k_1 y} & = x
+\end{WithArrows}
+\]
+\end{center}
+
+\noindent We can now insert the determined value for $x$ into the first equation:
+\begin{center}
+\[
+\begin{WithArrows}
+	0 & = v_0 - k_1 \frac{k_2}{k_1 y} y^2 \Arrow{cancel $k_1$ and $y$} \\
+	0 & = v_0 - k_2 y \Arrow{$|-v_0,~ |:k_2,~|*(-1)$} \\
+	\frac{v_0}{k_2} & = y
+\end{WithArrows}
+\]
+\end{center}
+
+\noindent As the $x$ we got from the first equation is still dependent on $y$ we can replace it now:
+\begin{center}
+\[
+\begin{WithArrows}
+	x & = \frac{k_2}{k_1 \left( \frac{v_0}{k_2} \right)} \Arrow{Rewrite double fraction} \\
+	x & = \frac{k_2^2}{•k_1 v_0}
+\end{WithArrows}
+\]
+\end{center}
+
+\noindent Therefore we obtain the only steady state of the system at $\left( \frac{k_2^2}{•k_1 v_0} , \frac{v_0}{k_2} \right)$.
+
+%%%%%%%%%%%%%%%%%%%
+%%%	Task b)	%%%
+%%%%%%%%%%%%%%%%%%%
+
+\subsubsection*{b)}
+
+\noindent We first rewrite our ODE as a vector of functions:
+
+\begin{center}
+\[
+f(x,y) ~=~ \left[ \begin{array}{c} f_1(x,y) \\ f_2(x,y) \end{array} \right] ~=~ \left[ \begin{array}{c} v_0 - k_1 x y^2 \\ k_1 x y^2 - k_2 y \end{array} \right]
+\]
+\end{center}
+
+\noindent The Jacobi matrix for our 2x2 system is defined as
+
+\begin{center}
+\[
+J(x,y) ~=~ \frac{\partial f}{\partial x}(a) ~=~
+\begin{bmatrix}
+  \frac{\partial f_1}{\partial x} & \frac{\partial f_1}{\partial y} \\[1ex] % <-- 1ex more space between rows of matrix
+  \frac{\partial f_2}{\partial x} & \frac{\partial f_2}{\partial y}
+\end{bmatrix}
+\]
+\end{center}
+
+\noindent With the Jacobi matrix general form we can now calculate the partial derivatives:
+
+\begin{center}
+\begin{align*}
+	\frac{\partial f_1}{\partial x} &= \frac{\partial}{\partial x}(v_0 - k_1 x y^2) &= & -k_1 y^2 \\
+	\frac{\partial f_1}{\partial y} &= \frac{\partial}{\partial y}(v_0 - k_1 x y^2) &= & -2 k_1 x y \\
+	\frac{\partial f_2}{\partial x} &= \frac{\partial}{\partial x}(k_1 x y^2 - k_2 y)	&= & k_1 y^2 \\
+	\frac{\partial f_2}{\partial y} &= \frac{\partial}{\partial y}(k_1 x y^2 - k_2 y)	&= & 2 k_1 x y - k_2 \\
+\end{align*}
+\end{center}
+
+\noindent Having determined the partial derivatives we can write the completed Jacobi matrix:
+
+\begin{center}
+\[
+J(x,y) ~=~
+\begin{bmatrix}
+  -k_1 y^2 & -2 k_1 x y \\[1ex] % <-- 1ex more space between rows of matrix
+   k_1 y^2 & 2 k_1 x y - k_2
+\end{bmatrix}
+\]
+\end{center}
+
+\noindent With the completed Jacobi matrix we can no insert the steady state of the ODE $\left( \frac{k_2^2}{k_1 v_0} , \frac{v_0}{k_2} \right)$ into the Jacobi matrix:
+
+\begin{center}
+\[
+J \left( \frac{k_2^2}{k_1 v_0} , \frac{v_0}{k_2} \right) ~=~
+%\begin{bmatrix}
+%  -k_1 \left( \frac{v_0}{k_2} \right)^2 & -2 k_1 \left( \frac{k_2^2}{•k_1 v_0} \right) \left( \frac{v_0}{k_2} \right) \\[1ex] % <-- 1ex more space between rows of matrix
+%   k_1 \left( \frac{v_0}{k_2} \right)^2 & 2 k_1 \left( \frac{k_2^2}{•k_1 v_0} \right) \left( \frac{v_0}{k_2} \right) - k_2
+%\end{bmatrix} ~=~
+\begin{bmatrix}
+  -\left( \frac{k_1 v_0^2}{k_2^2} \right) & -2 k_2 \\[1ex] % <-- 1ex more space between rows of matrix
+   \left( \frac{k_1 v_0^2}{k_2^2} \right) & 2 k_2 - k_2
+\end{bmatrix} ~=~
+\begin{bmatrix}
+  -\left( \frac{k_1 v_0^2}{k_2^2} \right) & -2 k_2 \\[1ex] % <-- 1ex more space between rows of matrix
+   \left( \frac{k_1 v_0^2}{k_2^2} \right) & k_2
+\end{bmatrix}
+\]
+\end{center}
+
+
+%%%%%%%%%%%%%%%%%%%
+%%%	Task c)	%%%
+%%%%%%%%%%%%%%%%%%%
+
+\subsubsection*{c)}
+
+\noindent The trace of a matrix $A$ is defined as the sum of its diagonal entries:
+
+\begin{center}
+$
+tr(A) ~=~ \sum_{i=1}^n a_{ii}
+$
+\end{center}
+
+\noindent The trace for our Jacobi matrix at the steady state is
+
+\begin{center}
+$
+tr \left( J \left( \frac{k_2^2}{k_1 v_0} , \frac{v_0}{k_2} \right) \right) ~=~ -\left( \frac{k_1 v_0^2}{k_2^2} \right) + k_2
+$
+\end{center}
+
+\noindent The determinant for our Jacobi matrix at the steady state is
+
+\begin{center}
+\begin{align*}
+det \left( J \left( \frac{k_2^2}{k_1 v_0} , \frac{v_0}{k_2} \right) \right) &= -\left( \frac{k_1 v_0^2}{k_2^2} \right) * k_2 - \left( -2 k_2 * \frac{k_1 v_0^2}{k_2^2} \right) \\
+&= - \frac{k_1 v_0^2}{k_2} + \frac{2 k_1 v_0^2}{k_2} \\
+&= \frac{k_1 v_0^2}{k_2}
+\end{align*}
+\end{center}
+
+
+%%%%%%%%%%%%%%%%%%%
+%%%	Task d)	%%%
+%%%%%%%%%%%%%%%%%%%
+
+\subsubsection*{d)}
+
+
+
+%%%%%%%%%%%%%%%%%%%
+%%%	Task e)	%%%
+%%%%%%%%%%%%%%%%%%%
+
+\subsubsection*{e)}
+
+
+
+%%%%%%%%%%%%%%%%%%%
+%%%	Task f)	%%%
+%%%%%%%%%%%%%%%%%%%
+
+\subsubsection*{f)}
+
+
+
+
+
+
+\end{document}
+
+
+
