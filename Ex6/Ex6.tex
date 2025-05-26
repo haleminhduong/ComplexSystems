@@ -247,9 +247,6 @@ $
 \end{align*}
 \end{center}
 
-\noindent As $v_0, k_1, k_2 > 0$ and $S = tr(J) = -\left( \frac{k_1 v_0^2}{k_2^2} \right) + k_2$ at the steady state the determining factor for the behavior of the system is the inside of the square root, $S^2 - 4P$.
-\\
-\\
 \noindent We can observe the required system stability behaviors if we choose the parameters such that the eigenvalues $\lambda_1, \lambda_2$ of the system fulfill the following conditions:
 
 \begin{center}
@@ -263,6 +260,75 @@ $
 \end{align*}
 \end{center}
 
+\noindent Additionally from the task we have the requirement that  $v_0, k_1, k_2 > 0$ and $k_1 = 1$. We now have the equation:
+
+\begin{center}
+\begin{align*}
+	\lambda_{1,2}	& =  \frac{1}{2} \left( \left( - \left( \frac{k_1 v_0^2}{k_2^2} \right) + k_2 \right) \pm \sqrt{ \left( - \left( \frac{k_1 v_0^2}{k_2^2} \right) + k_2 \right)^2 - 4 \frac{k_1 v_0^2}{k_2} } \right) & \hspace{1em} & \rlap{\footnotesize (Set $k_1 = 1$)} \\
+					& =	\frac{1}{2} \left( \left( - \left( \frac{v_0^2}{k_2^2} \right) + k_2 \right) \pm \sqrt{ \left( - \left( \frac{v_0^2}{k_2^2} \right) + k_2 \right)^2 - 4 \frac{v_0^2}{k_2} } \right) & & \\
+					& =	\frac{1}{2} \left( \left( \frac{k_2^3 - v_0^2}{k_2^2} \right) \pm \sqrt{ \left( \frac{k_2^3 - v_0^2}{k_2^2}  \right)^2 - 4 \frac{v_0^2}{k_2} } \right) & & \\
+\end{align*}
+\end{center}
+
+\noindent From the formula we can see that if $k_2^3 > v_0^2$ the first part of the equation remains positive, and if $k_2^3 < v_0^2$ it becomes negative.
+We can also see that if $\left( \frac{k_2^3 - v_0^2}{k_2^2}  \right)^2 > 4 \frac{v_0^2}{k_2}$ the value inside the root is positive and thus real, whereas $\left( \frac{k_2^3 - v_0^2}{k_2^2}  \right)^2 < 4 \frac{v_0^2}{k_2}$ will lead to a negative root and therefore a complex result. With these inequalities as guides we try various combinations for $v_0, k_2 > 0$ and $k_1 = 1$.
+
+
+\begin{center}
+\begin{align*}
+	k_1 = 1, v_0 = 2, k_2 = 1 & \\
+	\lambda_{1,2}	& =  \frac{1}{2} \left( \left( \frac{1^3 - 2^2}{1^2} \right) \pm \sqrt{ \left( \frac{1^3 - 2^2}{1^2}  \right)^2 - 4 \frac{2^2}{1} } \right) \\
+					& =  \frac{1}{2} \left( -3 \pm \sqrt{ 9 - 16 } \right) \\
+\end{align*}
+\end{center}
+
+With the real part negative and the square root negative and thus complex the parameter combination $k_1 = 1, v_0 = 2, k_2 = 1$ leads to a \textbf{stable focus}.
+
+
+\begin{center}
+\begin{align*}
+	k_1 = 1, v_0 = 3, k_2 = 1 & \\
+	\lambda_{1,2}	& =  \frac{1}{2} \left( \left( \frac{1^3 -3^2}{1^2} \right) \pm \sqrt{ \left( \frac{1^3 - 3^2}{1^2}  \right)^2 - 4 \frac{3^2}{1} } \right) \\
+					& =  \frac{1}{2} \left( -8 \pm \sqrt{ 64 - 36 } \right) \\
+					& =  \frac{1}{2} \left( -8 \pm \sim 5.3 \right) \\
+\end{align*}
+\end{center}
+
+With $\lambda_{1,2}$ real and negative the parameter combination $k_1 = 1, v_0 = 3, k_2 = 1$ leads to a \textbf{stable node}.
+
+\begin{center}
+\begin{align*}
+	k_1 = 1, v_0 = 5, k_2 = 3 & \\
+	\lambda_{1,2}	& =  \frac{1}{2} \left( \left( \frac{3^3 - 5^2}{3^2} \right) \pm \sqrt{ \left( \frac{3^3 - 5^2}{3^2}  \right)^2 - 4 \frac{5^2}{3} } \right) \\
+					& =  \frac{1}{2} \left( \frac{2}{9} \pm \sqrt{ \frac{4}{81} - \frac{100}{3} } \right) \\
+					& =  \frac{1}{2} \left( \frac{2}{9} \pm \sqrt{ -\frac{2696}{81} } \right) \\
+\end{align*}
+\end{center}
+
+With the real part positive and the square root negative and thus complex the parameter combination $k_1 = 1, v_0 = 5, k_2 = 3$ leads to an \textbf{unstable focus}.
+
+\begin{center}
+\begin{align*}
+	k_1 = 1, v_0 = 1, k_2 = 2 & \\
+	\lambda_{1,2}	& =  \frac{1}{2} \left( \left( \frac{2^3 - 1^2}{2^2} \right) \pm \sqrt{ \left( \frac{2^3 - 1^2}{2^2}  \right)^2 - 4 \frac{1^2}{2} } \right) \\
+					& =  \frac{1}{2} \left( \frac{7}{4} \pm \sqrt{ \frac{49}{16} - 2 } \right) \\
+					& =  \frac{1}{2} \left( 1,75 \pm \sim 1,03 \right) \\
+\end{align*}
+\end{center}
+
+With $\lambda_{1,2}$ real and positive the parameter combination $k_1 = 1, v_0 = 1, k_2 = 2$ leads to a \textbf{unstable node}.
+\\
+\\
+In summary, for the given ODE:
+
+\begin{center}
+\begin{align*}
+	k_1 = 1, ~ v_0 = 2, ~ k_2 = 1 & \hspace{1em} & \rlap{stable focus} \\
+	k_1 = 1, ~ v_0 = 3, ~ k_2 = 1 & \hspace{1em} & \rlap{stable node} \\
+	k_1 = 1, ~ v_0 = 5, ~ k_2 = 3 & \hspace{1em} & \rlap{unstable focus} \\
+	k_1 = 1, ~ v_0 = 1, ~ k_2 = 2 & \hspace{1em} & \rlap{unstable node} \\
+\end{align*}
+\end{center}
 
 %%%%%%%%%%%%%%%%%%%
 %%%	Task e)	%%%
@@ -270,7 +336,7 @@ $
 
 \subsubsection*{e)}
 
-
+The Trace=0 separates the stable (Trace<0) from the unstable (Trace>0) regions.
 
 %%%%%%%%%%%%%%%%%%%
 %%%	Task f)	%%%
