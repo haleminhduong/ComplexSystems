@@ -220,6 +220,48 @@ det \left( J \left( \frac{k_2^2}{k_1 v_0} , \frac{v_0}{k_2} \right) \right) &= -
 
 \subsubsection*{d)}
 
+\noindent We begin with defining the general form for the matrix to illustrate which values to apply to the formulas:
+
+\begin{center}
+$
+	A = \begin{pmatrix}
+		   a & b \\[1ex] % <-- 1ex more space between rows of matrix
+		   c & d
+		\end{pmatrix}
+$
+\end{center}
+
+\noindent We then continue with the characteristic equation for A:
+\begin{center}
+\begin{align*}
+	det(A - \lambda I) = \lambda^2 - & (\underbrace{a+d}) & \lambda * & (\underbrace{ad-bc}) & = 0 \\
+								   	 & 			  S=tr(J) & 		  & 			P=det(J) &	   \\
+\end{align*}
+\end{center}
+
+\noindent From the characteristic equation we can derive the formula to determine the Eigenvalues $\lambda_{1,2}$:
+
+\begin{center}
+\begin{align*}
+	\lambda_{1,2} =  & \frac{1}{2} \left( S \pm \sqrt{S^2 - 4P} \right) \\
+\end{align*}
+\end{center}
+
+\noindent As $v_0, k_1, k_2 > 0$ and $S = tr(J) = -\left( \frac{k_1 v_0^2}{k_2^2} \right) + k_2$ at the steady state the determining factor for the behavior of the system is the inside of the square root, $S^2 - 4P$.
+\\
+\\
+\noindent We can observe the required system stability behaviors if we choose the parameters such that the eigenvalues $\lambda_1, \lambda_2$ of the system fulfill the following conditions:
+
+\begin{center}
+\begin{align*}
+	\lambda_1 \neq \lambda_2, & ~ \lambda_{1,2} \in \mathbb{R}, 		& ~ \lambda_{1,2} < 0	& \hspace{1em} & \rlap{\footnotesize (Stable node)}  \\
+	\lambda_1 \neq \lambda_2, & ~ \lambda_{1,2} \in \mathbb{R}, 		& ~ \lambda_{1,2} > 0	& \hspace{1em} & \rlap{\footnotesize (Unstable node)}  \\
+							  &											&						&			   & \\
+							  & ~ \lambda_{1,2} = \alpha \pm i \beta,	& ~ \beta \neq 0 		& 			   & \rlap{\footnotesize (General complex conjugate form)} \\
+	 						  & ~ \lambda_{1,2} \in \mathbb{C}, 		& ~ \alpha < 0 			& \hspace{1em} & \rlap{\footnotesize (Stable focus, inward spiral)}  \\
+	 						  & ~ \lambda_{1,2} \in \mathbb{C}, 		& ~ \alpha > 0 			& \hspace{1em} & \rlap{\footnotesize (Unstable focus, outward spiral)}  \\
+\end{align*}
+\end{center}
 
 
 %%%%%%%%%%%%%%%%%%%
