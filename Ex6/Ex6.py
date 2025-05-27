@@ -7,9 +7,10 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.integrate import solve_ivp
 # import os # For getting and setting working directory via os.getcwd() and os.chdir()
 
-# --- System 1 ---
+# --- ODE System, for plotting phase plane with streamplot ---
 def system1_ode(x, y, v0, k1, k2, t):
     dxdt = v0 - k1 * x * y**2
     dydt = k1 * x * y**2 - k2 * y
@@ -74,117 +75,75 @@ print("Saved PhasePortrait_4_UnstableNode.png")
 
 
 
+# y=[x0,y0]: Initial condition
+# v0, k1, k2: Parameters, >0
+# savePlotName: Name fro saving plot
+def doTimeCourseAndPhasePlanePlot(y0,v0, k1, k2,savePlotName):
+    # --- ODE System, for plotting phase plane with quiver and solving with np.solve ---
+    def system(t, z):
+        x, y = z
+        dxdt = v0 - k1 * x * y**2
+        dydt = k1 * x * y**2 - k2 * y
+        return [dxdt, dydt]
 
-# ############################################################################
-# # ChatGPT:
+    # === Time span and initial conditions ===
+    t_span = (0.25, 5)
+    t_eval = np.linspace(*t_span, 100)
 
-# import numpy as np
-# import matplotlib.pyplot as plt
-# from scipy.integrate import solve_ivp
+    # === Solve ODE ===
+    sol = solve_ivp(system, t_span, y0, t_eval=t_eval)
 
-# # === Parameters ===
-# v0 = 1.0     # You can try different values
-# k2 = 1.0     # You can try different values
+    # === Plot time course ===
+    plt.figure(figsize=(12, 5))
 
-# # === ODE system ===
-# def system(t, z):
-#     x, y = z
-#     dxdt = v0 - x * y**2
-#     dydt = x * y**2 - k2 * y
-#     return [dxdt, dydt]
+    plt.subplot(1, 2, 1)
+    plt.plot(sol.t, sol.y[0], label='x(t)')
+    plt.plot(sol.t, sol.y[1], label='y(t)')
+    plt.xlabel('Time')
+    plt.ylabel('Concentration')
+    plt.title('Time Course. Initial condition: ['+str(y0[0])+','+str(y0[1])+']. v0='+str(v0)+', k1='+str(k1)+', k2='+str(k2) )
+    plt.legend()
+    plt.grid()
 
-# # === Time span and initial conditions ===
-# t_span = (0, 50)
-# t_eval = np.linspace(*t_span, 1000)
-# z0 = [0.5, 0.5]  # Initial condition
+    # === Phase plane plot with vector field ===
+    plt.subplot(1, 2, 2)
 
-# # === Solve ODE ===
-# sol = solve_ivp(system, t_span, z0, t_eval=t_eval)
+    # Create a grid
+    x_vals = np.linspace(0.25, 10, 40)
+    y_vals = np.linspace(0.25, 10, 40)
+    X, Y = np.meshgrid(x_vals, y_vals)
 
-# # === Plot time course ===
-# plt.figure(figsize=(12, 5))
+    # Compute derivatives at each point
+    DX, DY = system(0,[X,Y])
 
-# plt.subplot(1, 2, 1)
-# plt.plot(sol.t, sol.y[0], label='x(t)')
-# plt.plot(sol.t, sol.y[1], label='y(t)')
-# plt.xlabel('Time')
-# plt.ylabel('Concentration')
-# plt.title('Time Course')
-# plt.legend()
-# plt.grid()
+    # Normalize vectors for quiver plot
+    speed = np.sqrt(DX**2 + DY**2)
+    DX /= speed
+    DY /= speed
 
-# # === Phase plane plot with vector field ===
-# plt.subplot(1, 2, 2)
+    plt.quiver(X, Y, DX, DY, angles='xy', scale_units='xy', scale=5, color='gray', alpha=0.5)
+    plt.plot(sol.y[0], sol.y[1], 'b', label='Trajectory')
+    plt.plot(y0[0], y0[1], 'ro', label='Initial Condition')
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.title('Phase Plane. Initial condition: ['+str(y0[0])+','+str(y0[1])+']. v0='+str(v0)+', k1='+str(k1)+', k2='+str(k2) )
+    plt.legend()
+    plt.grid()
 
-# # Create a grid
-# x_vals = np.linspace(0, 3, 20)
-# y_vals = np.linspace(0, 3, 20)
-# X, Y = np.meshgrid(x_vals, y_vals)
-
-# # Compute derivatives at each point
-# U = v0 - X * Y**2
-# V = X * Y**2 - k2 * Y
-
-# # Normalize vectors for quiver plot
-# speed = np.sqrt(U**2 + V**2)
-# U /= speed
-# V /= speed
-
-# plt.quiver(X, Y, U, V, angles='xy', scale_units='xy', scale=10, color='gray', alpha=0.5)
-# plt.plot(sol.y[0], sol.y[1], 'b', label='Trajectory')
-# plt.plot(z0[0], z0[1], 'ro', label='Initial Condition')
-# plt.xlabel('x')
-# plt.ylabel('y')
-# plt.title('Phase Plane')
-# plt.legend()
-# plt.grid()
-
-# plt.tight_layout()
-# plt.show()
+    plt.tight_layout()
+    #plt.show()
+    plt.savefig(savePlotName) # Save the plot
 
 
+# y=[x0,y0]: Initial condition
+# v0, k1, k2: Parameters, >0
+# savePlotName: Name fro saving plot
+doTimeCourseAndPhasePlanePlot([2, 1], 2.0, 1.0, 1.0, 'TimeCourse_1_StableFocus.png')
+doTimeCourseAndPhasePlanePlot([2, 1], 3.0, 1.0, 1.0, 'TimeCourse_2_StableNode.png')
+doTimeCourseAndPhasePlanePlot([2, 1], 5.0, 1.0, 3.0, 'TimeCourse_3_UnstableFocus.png')
+doTimeCourseAndPhasePlanePlot([2, 1], 1.0, 1.0, 2.0, 'TimeCourse_4_UnstableNode.png')
 
-# ############################################################################
-# # Perplexity.AI:
 
-# import numpy as np
-# from scipy.integrate import solve_ivp
-# import matplotlib.pyplot as plt
 
-# # Parameters
-# v0 = 2.0
-# k2 = 1.0
 
-# # ODE system
-# def odes(t, z):
-#     x, y = z
-#     dxdt = v0 - x * y**2
-#     dydt = x * y**2 - k2 * y
-#     return [dxdt, dydt]
 
-# # Initial conditions and time span
-# z0 = [1.0, 0.5]
-# t_span = (0, 20)
-# t_eval = np.linspace(*t_span, 400)
-
-# # Integrate ODE
-# sol = solve_ivp(odes, t_span, z0, t_eval=t_eval)
-
-# # Time course plots
-# plt.figure(figsize=(10,4))
-# plt.subplot(1,2,1)
-# plt.plot(sol.t, sol.y[0], label='x(t)')
-# plt.plot(sol.t, sol.y[1], label='y(t)')
-# plt.xlabel('Time')
-# plt.ylabel('Values')
-# plt.legend()
-# plt.title('Time Course')
-
-# # Phase plane plot
-# plt.subplot(1,2,2)
-# plt.plot(sol.y[0], sol.y[1])
-# plt.xlabel('x')
-# plt.ylabel('y')
-# plt.title('Phase Plane')
-# plt.tight_layout()
-# plt.show()
