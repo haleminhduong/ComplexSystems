@@ -71,14 +71,42 @@
 
 \subsubsection*{Homework 1}
 
-\textbf{\textcolor{red}{TODO}}
+The ODEs (from what I understood):
+$$
+\frac{dz_1}{dt} = -\frac{\partial V}{\partial z_1}
+$$
 
+$$
+\frac{dz_2}{dt} = -\frac{\partial V}{\partial z_2}
+$$
 
+$$
+\frac{\partial V}{\partial z_1} = \frac{\partial}{\partial z_1} \left[ (|z_1|-1)^2 + (|z_2|-1)^2 \right] = \frac{\partial}{\partial z_1} \left( (|z_1|-1)^2 \right) = 2(|z_1|-1) \cdot \frac{\partial}{\partial z_1}(|z_1|-1)
+$$
 
+$$
+\frac{\partial}{\partial z_1} |z_1| = \text{sgn}(z_1)
+$$
 
+$$
+\frac{\partial V}{\partial z_1} = 2(|z_1|-1) \cdot \text{sgn}(z_1)
+$$
 
+For the $z_1$ direction:
+$$
+\frac{dz_1}{dt} = - \frac{\partial V}{\partial z_1} = -2(|z_1|-1) \cdot \text{sgn}(z_1)
+$$
+Since $\text{sgn}(z_1) \cdot |z_1| = z_1$:
+$$
+\frac{dz_1}{dt} = 2(1-|z_1|) \cdot \text{sgn}(z_1) = 2(\text{sgn}(z_1) - |z_1|\text{sgn}(z_1)) = 2(\text{sgn}(z_1) - z_1)
+$$
+Analogous for the $z_2$ direction:
+$$
+\frac{dz_2}{dt} = - \frac{\partial V}{\partial z_2} = 2(\text{sgn}(z_2) - z_2)
+$$
 
 \end{document}
+
 
 
 
