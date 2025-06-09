@@ -48,7 +48,7 @@ def simulate_drift_walk():
 
         particle_z = boundary(particle_z, zmin, zmax)
 
-    np.savetxt('Task3TrajTest.txt', np.array(
+    np.savetxt('Task3Traj.txt', np.array(
         trajectory), fmt='%.2f', delimiter=',')
     print("Simulation complete. Trajectory saved to 'Task3Traj.txt'.")
 
