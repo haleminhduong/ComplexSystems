@@ -70,8 +70,6 @@ def simulate_random_walk():
 
     ani.save('Task2bTraj.mp4', writer='ffmpeg', fps=15)
     print("Animation complete. Movie saved to 'Task2bTraj.mp4'.")
-    # To see the plot, uncomment the line below
-    # plt.show()
 
 
 simulate_random_walk()
