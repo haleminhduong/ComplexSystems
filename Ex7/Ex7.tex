@@ -139,7 +139,7 @@ In the particle-based diffusion model the potential is scaled by the drift weigh
 \\
 The random noise factor $\sigma_{random}$ on the other hand is a factor for scaling the random motion of the simulated particles. A higher factor allows for larger movements per time step.
 \\ \\
-In the given task the drift weight $\sigma_{drift}$ stayed constant while the random noise factor $\sigma_{random}$ was consecutively reduced. The impact of the reduction can be observed in \autoref{fig:ShannonEntropy} where a gradual reduction of the entropy can be observed with a decrease in noise due to the reduction of $\sigma_{random}$ until finally somewhere between $\sigma_{random}=0.15$ and $\sigma_{random}=0.1$ the random noise and thus random movement of the particles is unable to overcome the potential and therefore the particles remain trapped in their respective wells.
+In the given task the drift weight $\sigma_{drift}$ stayed constant while the random noise factor $\sigma_{random}$ was consecutively reduced. The impact of the reduction can be observed in \autoref{fig:ShannonEntropy}. The gradual reduction of the entropy can be observed with a decrease in random movement due to the reduction of the noise $\sigma_{random}$ until finally somewhere between $\sigma_{random}=0.15$ and $\sigma_{random}=0.1$ the andom movement of the particles is unable to overcome the potential. Therefore the particles remain trapped in their respective wells of each quadrant and no mixing between the four different types takes place anymore.
 
 
 \end{document}
