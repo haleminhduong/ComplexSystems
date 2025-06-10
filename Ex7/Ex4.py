@@ -1,5 +1,6 @@
 # Ex4.py
 # Implementation of Schelling's Model
+# NOTE: Animation was not included as we could not get it to run properly in time
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -40,7 +41,7 @@ def getIndexableColors(n, cmap_name='tab10'):
 
 
 # Model parameters
-np.random.seed(int(12345)) # Random seed if reproducibility is needed
+#np.random.seed(int(12345)) # Random seed if reproducibility is needed
 NumAgents = 300
 UpdateAgentsPerTimestep = 10
 T_end = 300 # Simulate 300 Steps
@@ -77,17 +78,17 @@ for t in range(T_end):
 
 
 # Plot the model at the current time point
-plt.figure(figsize=(6, 6))
-for t in np.arange(len(Types)):
-    mask = (Agents[:,2] == t)
-    plt.scatter(Agents[mask][:, 0], Agents[mask][:, 1],
-                c=Colors[t], label=Types[t], alpha=0.6)
-plt.title("Schelling's Segregation Model")
-plt.xlabel('X')
-plt.ylabel('Y')
-plt.legend(loc='upper right')
-plt.grid(True)
-plt.show()
+# plt.figure(figsize=(6, 6))
+# for t in np.arange(len(Types)):
+#     mask = (Agents[:,2] == t)
+#     plt.scatter(Agents[mask][:, 0], Agents[mask][:, 1],
+#                 c=Colors[t], label=Types[t], alpha=0.6)
+# plt.title("Schelling's Segregation Model")
+# plt.xlabel('X')
+# plt.ylabel('Y')
+# plt.legend(loc='upper right')
+# plt.grid(True)
+# plt.show()
 
 
 
