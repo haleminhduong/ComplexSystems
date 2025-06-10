@@ -22,7 +22,7 @@
 % Opening / Title
 \title{Complex Systems in Bioinformatics \\ \vspace{2mm} Exercise 7 \\ \vspace{2mm}}
 \subtitle{Lecturers: Prof. Dr. Max von Kleist, Prof. Dr. Jana Wolf, Prof. Dr. Martin Vingron}
-\author{Kristian Reinhart, 4474140 \\ Duong Ha Le Minh, 5314209}
+\author{Duong Ha Le Minh, 5314209 \\ Kristian Reinhart, 4474140}
 \newenvironment{tightcenter}{%
   \setlength\topsep{0pt}
   \setlength\parskip{0pt}
@@ -68,7 +68,8 @@
 
 \subsubsection*{Homework 1}
 
-The ODEs (from what I understood):
+%The ODEs (from what I understood):
+The ODEs:
 $$
 \frac{dz_1}{dt} = -\frac{\partial V}{\partial z_1}
 $$
@@ -139,7 +140,12 @@ In the particle-based diffusion model the potential is scaled by the drift weigh
 \\
 The random noise factor $\sigma_{random}$ on the other hand is a factor for scaling the random motion of the simulated particles. A higher factor allows for larger movements per time step.
 \\ \\
-In the given task the drift weight $\sigma_{drift}$ stayed constant while the random noise factor $\sigma_{random}$ was consecutively reduced. The impact of the reduction can be observed in \autoref{fig:ShannonEntropy}. The gradual reduction of the entropy can be observed with a decrease in random movement due to the reduction of the noise $\sigma_{random}$ until finally somewhere between $\sigma_{random}=0.15$ and $\sigma_{random}=0.1$ the andom movement of the particles is unable to overcome the potential. Therefore the particles remain trapped in their respective wells of each quadrant and no mixing between the four different types takes place anymore.
+In the given task the drift weight $\sigma_{drift}$ stayed constant while the random noise factor $\sigma_{random}$ was consecutively reduced.
+The impact of the reduction can be observed in \autoref{fig:ShannonEntropy}.
+\\ \\
+For higher $\sigma_{random}$ the entropy displayed a logarithmic-like rise over time as particles overcame the well potential of their respective quadrant and diffused to other regions and, with a certain probability, back to their original quadrant as well.
+\\ \\
+The gradual reduction of the entropy shows an overall decrease in entropy as random movement of the particles is reduced due to the reduction of the noise $\sigma_{random}$. Finally somewhere between $\sigma_{random}=0.15$ and $\sigma_{random}=0.1$ the andom movement of the particles is unable to overcome the potential, therefore the particles remain trapped in their respective quadrant's well no mixing between the four different types takes place anymore leading to a highly homogeneous state with very low entropy in each quadrant.
 
 
 \end{document}
