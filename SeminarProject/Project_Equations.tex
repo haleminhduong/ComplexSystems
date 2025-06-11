@@ -1,0 +1,124 @@
+\documentclass[]{scrartcl}
+%\usepackage{graphicx}
+%\usepackage{amsmath} % For equation alignment
+\usepackage{mathtools} % For some extra math-related functionality, such as matrix*
+%\usepackage{hyperref} % For using \autoref
+%\usepackage{listings} % For adding code to the latex document
+%\usepackage{caption} % For adding captions
+\usepackage{color} % For color in code
+\usepackage{nicematrix} % For creating matrices with outer rows and columns, with dsahed line separators. Documentation: https://ctan.org/pkg/nicematrix
+%\usepackage{float} % For better control over float environments
+%\usepackage[utf8]{inputenc} % this is needed for umlauts
+%\usepackage[ngerman]{babel} % this is needed for umlauts
+%\usepackage[T1]{fontenc}    % this is needed for correct output of umlauts in pdf
+
+
+
+
+% Opening / Title
+\title{Complex Systems in Bioinformatics \\ \vspace{2mm} Block 3 Project 2 \\ \vspace{2mm}}
+\subtitle{Lecturers: Prof. Dr. Max von Kleist, Prof. Dr. Jana Wolf, Prof. Dr. Martin Vingron}
+\author{Kristian Reinhart, 4474140 \\ Duong Ha Le Minh: 5314209}
+\newenvironment{tightcenter}{%
+  \setlength\topsep{0pt}
+  \setlength\parskip{0pt}
+  \begin{center}
+}{%
+  \end{center}
+}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%	Begin actual document	%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+
+
+
+
+\maketitle
+
+
+
+\section*{Block III, Project 2}
+
+\subsection*{Model System}
+
+
+\begin{center}
+\noindent \begin{minipage}{.4\linewidth}
+\begin{flalign*}
+	R_1: ~ & z_1 		\overset{r_0}{\rightarrow} z_1 + z_1 &&\\
+	R_2: ~ & z_1 + z_2	\overset{r_2}{\rightarrow} z_2 &&\\
+	R_3: ~ & z_1 + z_2 	\overset{r_3}{\rightarrow} z_2 + z_2 &&\\
+	R_4: ~ & z_2 		\overset{r_4}{\rightarrow} \emptyset &&
+\end{flalign*}
+\end{minipage}
+\noindent \begin{minipage}{.4\linewidth}
+\begin{flalign*}
+	r_1: ~ & k_1 * z_1 &&\\
+	r_2: ~ & k_2 * z_1 * z_2 &&\\
+	r_3: ~ & k_3 * z_1 * z_2 &&\\
+	r_4: ~ & k_4 * z_2 &&
+\end{flalign*}
+\end{minipage}
+\end{center}
+
+
+
+\subsection*{Stoichiometric Matrix and Reaction Rate Vector}
+
+% Have the matrix in a float-environment and center it, looks nicer
+\begin{center}
+\noindent \begin{minipage}{.4\linewidth}
+$
+S =
+\begin{pNiceMatrix}[first-row,last-col,nullify-dots]
+	R_1	&	R_2 &	R_3 &	R_4 &		\\
+	  1 &	 -1 &	 -1 &	  0 &	z_1 \\
+	  0 &	  0 &	  1 &	 -1 &	z_2 \\
+\end{pNiceMatrix}
+$
+\end{minipage}
+\noindent \begin{minipage}{.4\linewidth}
+$
+R =
+\begin{pNiceMatrix}[last-col,nullify-dots]
+	k_1 * z_1		& r_1 \\
+	k_2 * z_1 * z_2 & r_2 \\
+	k_3 * z_1 * z_2 & r_3 \\
+	k_4 * z_2		& r_4 \\
+\end{pNiceMatrix}
+$
+\end{minipage}
+\end{center}
+
+
+
+\subsection*{ODE}
+
+\begin{center}
+\noindent \begin{minipage}{.5\linewidth}
+\begin{align*}
+	\frac{dz_1}{dt} & = k_1 z_1 - k_2 z_1 z_2 - k_3 z_1 z_2 & =  k_1 z_1 - (k_2 + k_3) z_1 z_2 \\
+	\frac{dz_2}{dt} & = k_3 z_1 z_2 - k_4 z_2 & \\
+\end{align*}
+\end{minipage}
+\end{center}
+
+
+\begin{center}
+\noindent \begin{minipage}{.5\linewidth}
+\begin{align*}
+	\frac{dz_1}{dt} & = k_1 z_1 - (k_2 + k_3) z_1 z_2 \\
+	\frac{dz_2}{dt} & = k_3 z_1 z_2 - k_4 z_2 & \\
+\end{align*}
+\end{minipage}
+\end{center}
+
+
+\end{document}
