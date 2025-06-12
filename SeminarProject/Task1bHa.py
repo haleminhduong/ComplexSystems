@@ -279,17 +279,14 @@ def plot_simulation_results(prey_count, predator_count, eat_multiple, params_cha
 
     plt.figure(figsize=(10, 6))
 
-    # Plot prey count over time
     plt.plot(time_steps, prey_count, label='$z_1(t)$ (Prey)', color='blue')
 
-    # Plot predator count over time
     plt.plot(time_steps, predator_count,
              label='$z_2(t)$ (Predator)', color='red')
 
     plt.xlabel('Time Steps')
     plt.ylabel('Population')
 
-    # Set title based on the 'wikipedia' flag
     plt.title(
         'Dynamical behavior of $z_1$ (prey) and $z_2$ (predator) over time')
 
@@ -297,7 +294,6 @@ def plot_simulation_results(prey_count, predator_count, eat_multiple, params_cha
     plt.grid(True)
     plt.tight_layout()
 
-    # Set filename based on the 'wikipedia' flag and save the plot
     name = 'plot'
     if eat_multiple:
         name += "_multiple"
