@@ -121,4 +121,133 @@ $
 \end{center}
 
 
+\subsection*{Nullclines}
+
+\begin{center}
+\noindent \begin{minipage}{.45\linewidth}
+\begin{align*}
+	\frac{dz_1}{dt} & = 0 \\
+	0 & = k_1 z_1 - (k_2 + k_3) z_1 z_2 \\
+	0 & = z_1 (k_1 - (k_2 + k_3) z_2) \\
+	- k_1 & = - (k_2 + k_3) z_2 \\
+	z_2 & = \frac{k_1}{k_2 + k_3} \\
+	\textrm{Nullcline}: z_1 = 0 & ~ \textrm{or} ~ z_2 = \frac{k_1}{k_2 + k_3} = \frac{0.3}{0.01 + 0.01} = 15 \\
+\end{align*}
+\end{minipage}
+\noindent \begin{minipage}{.45\linewidth}
+\begin{align*}
+	\frac{dz_2}{dt} & = 0 \\
+	0 & = - k_4 z_2 + k_3 z_1 z_2 \\
+	0 & = z_2 (- k_4 + k_3 z_1) \\
+	z_1 & = \frac{k_4}{k_3} \\
+	\textrm{Nullcline}: z_2 = 0 & ~ \textrm{or} ~ z_1 = \frac{k_4}{k_3} = \frac{0.3}{0.01} = 30 \\
+\end{align*}
+\end{minipage}
+\end{center}
+
+\subsection*{Fixed Points}
+
+\begin{center}
+\noindent \begin{minipage}{.45\linewidth}
+\begin{align*}
+	\textrm{Fixed points:} ~ & (0,0), & \left( \frac{k_4}{k_3} , \frac{k_1}{k_2 + k_3} \right) \\
+\end{align*}
+\end{minipage}
+\end{center}
+
+
+\subsection*{Stability Analysis}
+
+\begin{center}
+\noindent \begin{minipage}{.5\linewidth}
+\begin{align*}
+	\frac{dz_1}{dt} &= f(z_1,z_2) &= k_1 z_1 - (k_2 + k_3) z_1 z_2 \\
+	\frac{dz_2}{dt} &= g(z_1,z_2) &= - k_4 z_2 + k_3 z_1 z_2 & \\
+\end{align*}
+\end{minipage}
+\end{center}
+
+
+For the given ODE we have the following Jacobi matrix:
+
+\[
+J(z_1,z_2) ~=~
+\begin{bmatrix}
+  \frac{\partial f}{\partial z_1} & \frac{\partial f}{\partial z_2} \\[1ex] % <-- 1ex more space between rows of matrix
+  \frac{\partial g}{\partial z_1} & \frac{\partial g}{\partial z_2}
+\end{bmatrix}
+\]
+
+With the Jacobi matrix general form we can now calculate the partial derivatives:
+
+\begin{center}
+\begin{align*}
+	\frac{\partial f}{\partial z_1} &= k_1 - (k_2 + k_3) z_2 = 0.3 - 0.02 z_2 \\
+	\frac{\partial f}{\partial z_2} &= - (k_2 + k_3) z_1 = -0.02 z_1 \\
+	\frac{\partial g}{\partial z_1} &= k_3 z_2 = 0.01 z_2 \\
+	\frac{\partial g}{\partial z_2} &= k_3 z_1 - k_4 = 0.01 z_1 - 0.3 \\
+\end{align*}
+\end{center}
+
+We can now solve the Jacobi matrix for the fixed points:
+
+\[
+J(0,0) ~=~
+\begin{bmatrix}
+  k_1 & 0 \\[1ex] % <-- 1ex more space between rows of matrix
+  0 & -k_4
+\end{bmatrix} ~=~
+\begin{bmatrix}
+  0.3 & 0 \\[1ex] % <-- 1ex more space between rows of matrix
+  0 & -0.3
+\end{bmatrix}
+\]
+
+\begin{center}
+\begin{align*}
+	(0.3 -\lambda)(-0.3 -\lambda) &= 0 \\
+	\lambda_1 = 0.3 & \lambda_1 = -0.3 \\
+\end{align*}
+\end{center}
+
+
+With the mixed eigenvalues $\lambda_1 = 0.3$, $\lambda_2 = -0.3$ the fixed point at $(0,0)$ is an unstable saddle point.
+
+
+\begin{center}
+\begin{align*}
+J(30,15) &=
+\begin{bmatrix}
+  k_1 - (k_2 + k_3) z_2 & - (k_2 + k_3) z_1 \\[1ex] % <-- 1ex more space between rows of matrix
+  k_3 z_2 & k_3 z_1 - k_4
+\end{bmatrix} \\
+&= \begin{bmatrix}
+  0.3 - (0.02) * 15 & -0.02 * 15 \\[1ex] % <-- 1ex more space between rows of matrix
+  0.01 * 15 & 0.01 * 30 - 0.03
+\end{bmatrix} ~=~
+\begin{bmatrix}
+  0 & -0.6 \\[1ex] % <-- 1ex more space between rows of matrix
+  0.15 & 0
+\end{bmatrix}
+\end{align*}
+\end{center}
+
+\begin{center}
+\begin{align*}
+	\textrm{det}(J - \lambda I) &= 0 \\
+	\textrm{det} \left( \left[ \begin{bmatrix}
+  		0 - \lambda & -0.6 \\[1ex] % <-- 1ex more space between rows of matrix
+  		0.15 & 0 - \lambda
+	\end{bmatrix} \right] \right) &= 0 \\
+	(-\lambda)(-\lambda) - (-0.6)(0.15) &= 0 \\
+	\lambda^2 + 0.09 &= 0 \\
+	\lambda_{1/2} = \pm \sqrt{-0.09} &= \pm 0.3i \\
+\end{align*}
+\end{center}
+
+
+With the mixed eigenvalues $\lambda_1 = +0.3i$, $\lambda_2 = -0.3i$ the fixed point at $(30,15)$ is stable center point.
+
+
+
 \end{document}
