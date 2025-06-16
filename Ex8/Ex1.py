@@ -176,9 +176,9 @@ def update(i):
 
 
 ani = FuncAnimation(fig, update, frames=len(history_c), interval=17)
-# ani.save('FishSwarm.mp4', writer='ffmpeg')
-# print("Animation complete. Movie saved to 'FishSwarm.mp4'.")
-plt.show()
+ani.save('FishSwarm.mp4', writer='ffmpeg')
+print("Animation complete. Movie saved to 'FishSwarm.mp4'.")
+# plt.show()
 
 # plt.figure(figsize=(12, 5))
 # plt.plot(np.arange(0, params['T_end'], params['tau']), polarization_history)
